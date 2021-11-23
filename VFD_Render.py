@@ -265,7 +265,7 @@ class VFD(object):
         y0 = int(y0 / 8)
         y1 = int(y1 / 8)
         
-        command = b"\1F\x28\x66\x11"
+        command = b"\x1F\x28\x66\x11"
         command += struct.pack("hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
         command += b"\x01"
 
