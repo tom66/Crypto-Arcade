@@ -299,7 +299,7 @@ class VFD(object):
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
-            self.stream_out(self.vfd_surf, 0, 0, 112, 16)
+            self.stream_out(self.vfd_surf, 0, 0, 111, 15)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
