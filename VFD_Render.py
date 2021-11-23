@@ -89,12 +89,12 @@ class VFD(object):
         pygame.draw.line(self.vfd_surf, col, (x0, y0), (x1, y1), w)
 
     def circle_inverse(self, x0, y0, r, w, col=COL_WHITE):
-        pygame.draw.circle(self.inv_surf, col, (x0, y0), r, width=w)
+        pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
     
     def arc_inverse(self, x0, y0, r, w, sa, ea, col=COL_WHITE):
         sa *= 3.14159/180.0
         ea *= 3.14159/180.0
-        pygame.draw.arc(self.inv_surf, col, pygame.Rect((x0, y0), (r, r)), sa, ea, width=w)
+        pygame.draw.arc(self.inv_surf, col, pygame.Rect((x0, y0), (r, r)), sa, ea, w)
 
     def calculate_damage_list(self):
         # List used to colorise the clusters for debugging
