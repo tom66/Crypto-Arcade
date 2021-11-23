@@ -282,7 +282,7 @@ class VFD(object):
                 byte = 0
                 word = 0x01
                 for yy in range(0, 7):
-                    if a[x][y][0] != 0:
+                    if a[x][yy+(r*8)][0] != 0:
                         byte |= word
                     word <<= 1
                 command += byte
