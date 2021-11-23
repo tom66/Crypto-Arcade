@@ -65,6 +65,7 @@ class VFD(object):
             print("Not a Pi.  Data:", byt)
         else:
             self._wait_sbusy()
+            print("I'm a Pi.  Data:", byt)
             
             # Write up to 59 bytes at a time.  Anything left over, wait for SBUSY.
             nblocks = int(len(byt) / 59)
