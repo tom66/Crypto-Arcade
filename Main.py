@@ -173,8 +173,8 @@ class Main(object):
 
     def render_invert_concentric_circles(self, x, f):
         f %= 200
-        self.vfd.circle_inverse(x, 8, f, 6)
-        self.vfd.circle_inverse(x, 8, f + 12, 6)
+        self.vfd.circle_inverse(x, 8, f + 7, 6)
+        self.vfd.circle_inverse(x, 8, f + 14, 6)
 
     def check_data_ready(self):
         c_data = self.cf.get_coin(self.current_coin)
