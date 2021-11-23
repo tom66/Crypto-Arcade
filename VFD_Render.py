@@ -264,6 +264,8 @@ class VFD(object):
 
         y0 = int(y0 / 8)
         y1 = int(y1 / 8)
+
+        print(y0, y1)
         
         command = b"\x1F\x28\x66\x11"
         command += struct.pack("hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
@@ -273,6 +275,8 @@ class VFD(object):
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         
         rows = y1 - y0 + 1
+        print(rows)
+        
         for r in range(rows):
             for x in range(x1, x0):
                 byte = 0
