@@ -278,7 +278,7 @@ class VFD(object):
         print(rows)
         
         for r in range(rows):
-            for x in range(x1, x0):
+            for x in range(x0, x1):
                 byte = 0
                 word = 0x01
                 for yy in range(0, 7):
