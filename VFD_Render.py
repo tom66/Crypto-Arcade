@@ -256,7 +256,7 @@ class VFD(object):
         y = int(y / 8)
         command = b"\x1F\24H"
         command += struct.pack("hh", x, y)
-        self._send_command(command)
+        self._send_command(bytes(command))
 
     def stream_out(self, surf, x0, y0, x1, y1):
         # Stream bitmap out from surface
@@ -276,6 +276,8 @@ class VFD(object):
         
         rows = y1 - y0 + 1
         print(rows)
+
+        data = bytearray()
         
         for r in range(rows):
             for x in range(x0, x1):
@@ -285,9 +287,9 @@ class VFD(object):
                     if a[x][yy+(r*8)][0] != 0:
                         byte |= word
                     word <<= 1
-                command += byte
+                data.append(byte)
 
-        self._send_command(command)
+        self._send_command(command + data)
     
     def render_out(self):
         # apply invert mask to the vfd_surf
