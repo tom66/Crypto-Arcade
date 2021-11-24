@@ -322,7 +322,7 @@ class VFD(object):
         
         #data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
 
-        self._send_command(command + data + b"\x01")
+        self._send_command(command + data + b"\x00")
     
     def render_out(self):
         # apply invert mask to the vfd_surf
