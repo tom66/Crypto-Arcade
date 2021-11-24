@@ -62,11 +62,15 @@ class VFD(object):
             time.sleep(0.001)
     
     def _send_command(self, byt):
+        hx = ""
+        for b in byt:
+            hx += "%02x " % b 
+    
         if not AM_A_PI:
-            print("Not a Pi.  Data:", byt)
+            print("Not a Pi.  Data:", hx)
         else:
             self._wait_sbusy()
-            print("I'm a Pi.  Data:", byt)
+            print("I'm a Pi.  Data:", hx)
             
             # Write up to 59 bytes at a time.  Anything left over, wait for SBUSY.
             nblocks = int(len(byt) / 59)
