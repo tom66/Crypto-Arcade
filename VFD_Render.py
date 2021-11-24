@@ -311,11 +311,11 @@ class VFD(object):
         for r in range(rows):
             for x in range(x0, x1):
                 byte = 0
-                word = 0x01
+                word = 0x80
                 for yy in range(0, 7):
                     if a[x][yy+(r*8)][0] != 0:
                         byte |= word
-                    word <<= 1
+                    word >>= 1
                 data.append(byte)
         
         #data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
@@ -336,7 +336,7 @@ class VFD(object):
             #self._send_command(b"Hello\r\n")
             self.clear()
             #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
-            self.stream_out(self.vfd_surf, 0, 0, 63, 7)
+            self.stream_out(self.vfd_surf, 0, 0, 115, 7)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
