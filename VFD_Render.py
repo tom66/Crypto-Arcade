@@ -73,8 +73,7 @@ class VFD(object):
             print("I'm a Pi.  Data:", hx)
             
             # Write up to 59 bytes at a time.  Anything left over, wait for SBUSY.
-            nblocks = int(len(byt) / 59)
-            print(nblocks)
+            nblocks = int(len(byt) / 59) + 1
             
             for x in range(nblocks):
                 size = min(len(byt), 59)
