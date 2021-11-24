@@ -62,12 +62,11 @@ class VFD(object):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
         iters = 0
         
-        
         while GPIO.input(23):
             time.sleep(0.001)
             iters += 1
         
-        print("SBUSY %d ms" % iters)
+        #print("SBUSY %d ms" % iters)
     
     def _send_command(self, byt):
         MAX_BYTES = 8
@@ -94,6 +93,8 @@ class VFD(object):
                 else:
                     break
         
+        self._wait_sbusy()
+                    
     def text(self, font, x, y, str_, col=COL_WHITE):
         surf = font.render(str_, False, col)
         self.vfd_surf.blit(surf, dest=(x, y))
