@@ -86,7 +86,7 @@ class VFD(object):
             while True:
                 size = min(len(byt), MAX_BYTES)
                 self.port.write(byt[0:size])
-                time.sleep(0.0025)
+                time.sleep(0.01)
                 
                 if size == MAX_BYTES:
                     byt = byt[size:]
