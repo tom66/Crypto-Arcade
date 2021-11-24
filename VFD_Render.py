@@ -76,6 +76,8 @@ class VFD(object):
             nblocks = int(len(byt) / 59)
             for x in range(nblocks):
                 size = min(len(byt), 59)
+                print(byt[0:size], size, nblocks, x)
+                
                 self.port.write(byt[0:size])
                 byt = byt[size+1:]
 
