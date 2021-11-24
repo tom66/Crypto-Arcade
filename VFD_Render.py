@@ -61,10 +61,11 @@ class VFD(object):
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
         iters = 0
+        
         while True:
             if GPIO.input(23) == 0:
                 break
-            time.sleep(0.001)
+            #time.sleep(0.001)
             iters += 1
         
         print("SBUSY %d ms" % iters)
