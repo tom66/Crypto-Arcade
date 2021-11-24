@@ -86,7 +86,7 @@ class VFD(object):
             while True:
                 size = min(len(byt), MAX_BYTES)
                 self.port.write(byt[0:size])
-                time.sleep(0.01)
+                #time.sleep(0.01)
                 
                 if size == MAX_BYTES:
                     byt = byt[size:]
@@ -336,7 +336,7 @@ class VFD(object):
             #self._send_command(b"Hello\r\n")
             self.clear()
             #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
-            self.stream_out(self.vfd_surf, 0, 0, 111, 15)
+            self.stream_out(self.vfd_surf, 0, 0, 31, 7)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
