@@ -260,7 +260,7 @@ class VFD(object):
     
     def set_window(self, win):
         assert(win >= 0 and win <= 4)
-        self._send_command(b"\x1F\x28\x77\x01" + bytes(win))
+        self._send_command(b"\x1F\x28\x77\x01" + bytes(chr(win)))
         
     def re_init(self):
         self._send_command(bytes(b"\x1B\x40"))
@@ -326,6 +326,7 @@ class VFD(object):
         if AM_A_PI:
             #self._send_command(b"Hello\r\n")
             #self._send_command(b"Hello\r\n")
+            self.clear()
             self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
 
         # we also push it to the window and wait for the vsync
