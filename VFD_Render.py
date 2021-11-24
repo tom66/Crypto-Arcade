@@ -338,7 +338,7 @@ class VFD(object):
             #self._send_command(b"Hello\r\n")
             self.clear()
             #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
-            self.stream_out(self.vfd_surf, 0, 0, 111, 15)
+            self.stream_out(self.vfd_surf, 0, 0, 111, 7)
             self.stream_out(self.vfd_surf, 0, 8, 111, 15)
             time.sleep(0.05)
 
