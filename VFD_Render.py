@@ -311,7 +311,7 @@ class VFD(object):
         yr = y0 * 8
         
         for r in range(rows):
-            for x in range(x0, x1-1):
+            for x in range(x0, x1):
                 byte = 0
                 word = 0x80
                 for yy in range(yr+0, yr+7):
@@ -322,7 +322,7 @@ class VFD(object):
         
         #data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
 
-        self._send_command(command + data)
+        self._send_command(command + data + b"\x01")
     
     def render_out(self):
         # apply invert mask to the vfd_surf
