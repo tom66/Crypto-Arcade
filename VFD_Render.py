@@ -249,6 +249,9 @@ class VFD(object):
         #print("BBOX solve in %d ms" % ((t1 - t0) * 1000))
         return bboxes
 
+    def clear(self):
+        self._send_command("\x0C")
+    
     def set_cursor(self, x, y):
         # Set real cursor on display.  Y can be set with 8 pixel resolution.
         if (y & 0x07) > 0:
@@ -306,7 +309,8 @@ class VFD(object):
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
-            self.stream_out(self.vfd_surf, 10 + (frame % 60), 0, 10, 8)
+            self.clear()
+            self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 10, 8)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
