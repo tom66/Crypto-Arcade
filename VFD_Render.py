@@ -328,7 +328,7 @@ class VFD(object):
         b = pygame.surfarray.pixels3d(self.inv_surf)
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
         
-        self.calculate_damage_list()
+        #self.calculate_damage_list()
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
