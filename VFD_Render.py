@@ -263,7 +263,8 @@ class VFD(object):
 
         y = int(y / 8)
         command = b"\x1F\x24H"# + struct.pack("@hh", x, y)
-        self._send_command(bytes(command))
+        #self._send_command(bytes(command))
+        self._send_command(b"")
 
     def stream_out(self, surf, x0, y0, x1, y1):
         # Stream bitmap out from surface
