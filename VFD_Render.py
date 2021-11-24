@@ -70,7 +70,7 @@ class VFD(object):
         print("SBUSY %d ms" % iters)
     
     def _send_command(self, byt):
-        MAX_BYTES = 8
+        MAX_BYTES = 1
         
         hx = ""
         for b in byt:
