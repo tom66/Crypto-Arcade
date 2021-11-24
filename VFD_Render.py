@@ -83,8 +83,7 @@ class VFD(object):
             print("I'm a Pi.  Data:", hx)
             
             # Write up to MAX_BYTES bytes at a time.  Anything left over, wait for SBUSY.
-            
-            for x in range(nblocks):
+            while True:
                 size = min(len(byt), MAX_BYTES)
                 self.port.write(byt[0:size])
                 
