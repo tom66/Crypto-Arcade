@@ -253,7 +253,10 @@ class VFD(object):
         t1 = time.time()
         #print("BBOX solve in %d ms" % ((t1 - t0) * 1000))
         return bboxes
-
+    
+    def re_init(self):
+        self._send_command(bytes(b"\x1B\x40"))
+    
     def clear(self):
         self._send_command(bytes(b"\x0C"))
     
@@ -310,11 +313,11 @@ class VFD(object):
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
         
         self.calculate_damage_list()
+        self.re_init()
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
             #self._send_command(b"Hello\r\n")
-            self.clear()
             #self._send_command(b"Hello\r\n")
             self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
 
