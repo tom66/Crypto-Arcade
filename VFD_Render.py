@@ -300,7 +300,6 @@ class VFD(object):
         rows = y1 - y0 + 1
         print(rows)
 
-        """
         data = bytearray()
         
         for r in range(rows):
@@ -312,9 +311,8 @@ class VFD(object):
                         byte |= word
                     word <<= 1
                 data.append(byte)
-        """
         
-        data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
+        #data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
 
         self._send_command(command + data)
     
