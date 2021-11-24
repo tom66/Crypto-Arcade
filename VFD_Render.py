@@ -89,7 +89,7 @@ class VFD(object):
                 time.sleep(0.0025)
                 
                 if size == MAX_BYTES:
-                    byt = byt[size+1:]
+                    byt = byt[size:]
                     self._wait_sbusy()
                 else:
                     break
