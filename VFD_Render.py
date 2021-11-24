@@ -83,7 +83,6 @@ class VFD(object):
             print("I'm a Pi.  Data:", hx)
             
             # Write up to MAX_BYTES bytes at a time.  Anything left over, wait for SBUSY.
-            nblocks = int(len(byt) / MAX_BYTES) + 1
             
             for x in range(nblocks):
                 size = min(len(byt), MAX_BYTES)
@@ -91,12 +90,9 @@ class VFD(object):
                 
                 if size == MAX_BYTES:
                     byt = byt[size+1:]
+                    self._wait_sbusy()
                 else:
                     break
-
-                # Wait SBUSY, if this is not the last block
-                if x == (nblocks - 1):
-                    self._wait_sbusy()
         
     def text(self, font, x, y, str_, col=COL_WHITE):
         surf = font.render(str_, False, col)
