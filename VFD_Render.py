@@ -60,12 +60,18 @@ class VFD(object):
 
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
+        iters = 0
         while True:
             if GPIO.input(23) == 0:
                 break
             time.sleep(0.001)
+            iters += 1
+        
+        print("SBUSY %d ms" % iters)
     
     def _send_command(self, byt):
+        MAX_BYTES = 10
+        
         hx = ""
         for b in byt:
             hx += "%02x " % b 
@@ -76,13 +82,17 @@ class VFD(object):
             self._wait_sbusy()
             print("I'm a Pi.  Data:", hx)
             
-            # Write up to 59 bytes at a time.  Anything left over, wait for SBUSY.
-            nblocks = int(len(byt) / 59) + 1
+            # Write up to MAX_BYTES bytes at a time.  Anything left over, wait for SBUSY.
+            nblocks = int(len(byt) / MAX_BYTES) + 1
             
             for x in range(nblocks):
-                size = min(len(byt), 59)
+                size = min(len(byt), MAX_BYTES)
                 self.port.write(byt[0:size])
-                byt = byt[size+1:]
+                
+                if size == MAX_BYTES:
+                    byt = byt[size+1:]
+                else:
+                    break
 
                 # Wait SBUSY, if this is not the last block
                 if x == (nblocks - 1):
