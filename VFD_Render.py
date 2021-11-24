@@ -71,15 +71,15 @@ class VFD(object):
     def _send_command(self, byt):
         MAX_BYTES = 8
         
-        hx = ""
-        for b in byt:
-            hx += "%02x " % b 
+        #hx = ""
+        #for b in byt:
+        #    hx += "%02x " % b 
     
         if not AM_A_PI:
-            print("Not a Pi.  Data:", hx)
+            return #print("Not a Pi.  Data:", hx)
         else:
             self._wait_sbusy()
-            print("I'm a Pi.  Data:", hx)
+            #print("I'm a Pi.  Data:", hx)
             
             # Write up to MAX_BYTES bytes at a time.  Anything left over, wait for SBUSY.
             while True:
@@ -295,7 +295,7 @@ class VFD(object):
         y0 = int(y0 / 8)
         y1 = int(y1 / 8)
 
-        print(y0, y1)
+        #print(y0, y1)
         
         command = b"\x1F\x28\x66\x11"
         command += struct.pack("@hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
@@ -305,7 +305,7 @@ class VFD(object):
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         
         rows = y1 - y0 + 1
-        print(rows)
+        #print(rows)
 
         data = bytearray()
         yr = y0 * 8
