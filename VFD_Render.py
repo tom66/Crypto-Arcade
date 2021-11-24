@@ -317,7 +317,7 @@ class VFD(object):
             self.clear()
             self.set_cursor(10 + (self.frame % 60), 0)
             #self._send_command(b"Hello\r\n")
-            self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 8)
+            self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
