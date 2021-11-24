@@ -70,7 +70,7 @@ class VFD(object):
         print("SBUSY %d ms" % iters)
     
     def _send_command(self, byt):
-        MAX_BYTES = 1
+        MAX_BYTES = 8
         
         hx = ""
         for b in byt:
@@ -86,7 +86,7 @@ class VFD(object):
             while True:
                 size = min(len(byt), MAX_BYTES)
                 self.port.write(byt[0:size])
-                time.sleep(0.00025)
+                time.sleep(0.0025)
                 
                 if size == MAX_BYTES:
                     byt = byt[size+1:]
