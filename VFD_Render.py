@@ -262,7 +262,7 @@ class VFD(object):
         assert(win >= 0 and win <= 4)
         
         data = b"\x1F\x28\x77\x01"
-        data += struct.pack("c", win)
+        data += struct.pack("B", win)
         
         self._send_command(data)
         
