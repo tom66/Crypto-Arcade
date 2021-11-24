@@ -258,7 +258,7 @@ class VFD(object):
             raise ValueError("y not divisible by 8")
 
         y = int(y / 8)
-        command = b"\x1F\24H"
+        command = b"\x1F\x24H"
         command += struct.pack("hh", x, y)
         self._send_command(bytes(command))
 
