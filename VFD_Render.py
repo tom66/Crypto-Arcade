@@ -305,7 +305,7 @@ class VFD(object):
                 data.append(byte)
         """
         
-        data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00"
+        data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55"
 
         self._send_command(command + data)
     
