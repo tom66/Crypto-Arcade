@@ -311,7 +311,7 @@ class VFD(object):
         yr = y0 * 8
         
         for r in range(rows):
-            for x in range(x0, x1):
+            for x in range(x0, x1-1):
                 byte = 0
                 word = 0x80
                 for yy in range(yr+0, yr+7):
