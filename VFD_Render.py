@@ -23,6 +23,7 @@ class VFD(object):
     window = None
     vfd_surf = None
     last_vfd_surf = None
+    frame = 0
     
     def __init__(self, render_window):
         if render_window:
@@ -277,6 +278,7 @@ class VFD(object):
         rows = y1 - y0 + 1
         print(rows)
 
+        """
         data = bytearray()
         
         for r in range(rows):
@@ -288,6 +290,9 @@ class VFD(object):
                         byte |= word
                     word <<= 1
                 data.append(byte)
+        """
+        
+        data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00"
 
         self._send_command(command + data)
     
@@ -301,7 +306,7 @@ class VFD(object):
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
-            self.stream_out(self.vfd_surf, 0, 0, 111, 15)
+            self.stream_out(self.vfd_surf, 10 + (frame % 60), 0, 10, 8)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
@@ -328,5 +333,7 @@ class VFD(object):
         self.vfd_surf.fill((0, 0, 0))
         self.inv_surf.fill((0, 0, 0))
         self.damage_surf.fill((0, 0, 0, 0))
+        
+        self.frame += 1
 
         return True
