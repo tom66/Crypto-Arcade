@@ -263,7 +263,7 @@ class VFD(object):
 
         y = int(y / 8)
         command = b"\x1F\x24H"
-        command += struct.pack("hh", x, y)
+        command += struct.pack("@hh", x, y)
         self._send_command(bytes(command))
 
     def stream_out(self, surf, x0, y0, x1, y1):
@@ -276,7 +276,7 @@ class VFD(object):
         print(y0, y1)
         
         command = b"\x1F\x28\x66\x11"
-        command += struct.pack("hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
+        command += struct.pack("@hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
         command += b"\x01"
 
         # Pack image data, one row at a time
