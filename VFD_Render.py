@@ -55,6 +55,7 @@ class VFD(object):
             print("I'm not running on a Pi.")
             
         self.re_init()
+        self.set_window(0)
         self.clear()
 
     def _wait_sbusy(self):
@@ -257,6 +258,10 @@ class VFD(object):
         #print("BBOX solve in %d ms" % ((t1 - t0) * 1000))
         return bboxes
     
+    def set_window(self, win):
+        assert(win >= 0 && win <= 4)
+        self._send_command(b"\x1F\x28\x77\x01" + chr(win))
+        
     def re_init(self):
         self._send_command(bytes(b"\x1B\x40"))
     
@@ -320,8 +325,7 @@ class VFD(object):
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
             #self._send_command(b"Hello\r\n")
-            #self._send_command(b"Hello\r\n
-            self.re_init()
+            #self._send_command(b"Hello\r\n")
             self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
 
         # we also push it to the window and wait for the vsync
