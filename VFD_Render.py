@@ -74,6 +74,8 @@ class VFD(object):
             
             # Write up to 59 bytes at a time.  Anything left over, wait for SBUSY.
             nblocks = int(len(byt) / 59)
+            print(nblocks)
+            
             for x in range(nblocks):
                 size = min(len(byt), 59)
                 print(byt[0:size], size, nblocks, x)
