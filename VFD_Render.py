@@ -53,6 +53,9 @@ class VFD(object):
             self.port = serial.Serial(port="/dev/ttyS0", baudrate=115200)
         else:
             print("I'm not running on a Pi.")
+            
+        self.re_init()
+        self.clear()
 
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
@@ -313,7 +316,6 @@ class VFD(object):
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
         
         self.calculate_damage_list()
-        self.re_init()
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
