@@ -77,8 +77,6 @@ class VFD(object):
             
             for x in range(nblocks):
                 size = min(len(byt), 59)
-                #print(byt[0:size], size, nblocks, x)
-                
                 self.port.write(byt[0:size])
                 byt = byt[size+1:]
 
@@ -318,8 +316,8 @@ class VFD(object):
             #self._send_command(b"Hello\r\n")
             self.clear()
             self.set_cursor(10 + (self.frame % 60), 0)
-            self._send_command(b"Hello\r\n")
-            #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 10, 8)
+            #self._send_command(b"Hello\r\n")
+            self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 10, 8)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
