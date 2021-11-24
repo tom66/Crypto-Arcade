@@ -307,12 +307,13 @@ class VFD(object):
         print(rows)
 
         data = bytearray()
+        yr = y0 * 8
         
         for r in range(rows):
             for x in range(x0, x1):
                 byte = 0
                 word = 0x80
-                for yy in range(0, 7):
+                for yy in range(yr+0, yr+7):
                     if a[x][yy+(r*8)][0] != 0:
                         byte |= word
                     word >>= 1
@@ -336,7 +337,7 @@ class VFD(object):
             #self._send_command(b"Hello\r\n")
             self.clear()
             #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
-            #self.stream_out(self.vfd_surf, 0, 0, 111, 7)
+            self.stream_out(self.vfd_surf, 0, 0, 111, 7)
             self.stream_out(self.vfd_surf, 0, 8, 111, 15)
 
         # we also push it to the window and wait for the vsync
