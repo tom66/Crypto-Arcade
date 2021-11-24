@@ -260,7 +260,7 @@ class VFD(object):
     
     def set_window(self, win):
         assert(win >= 0 and win <= 4)
-        self._send_command(b"\x1F\x28\x77\x01" + chr(win))
+        self._send_command(b"\x1F\x28\x77\x01" + bytes(win))
         
     def re_init(self):
         self._send_command(bytes(b"\x1B\x40"))
