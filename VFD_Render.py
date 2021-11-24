@@ -315,7 +315,6 @@ class VFD(object):
         if AM_A_PI:
             #self._send_command(b"Hello\r\n")
             self.clear()
-            self.set_cursor(10 + (self.frame % 60), 0)
             #self._send_command(b"Hello\r\n")
             self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
 
