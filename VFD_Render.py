@@ -250,7 +250,7 @@ class VFD(object):
         return bboxes
 
     def clear(self):
-        self._send_command("\x0C")
+        self._send_command(bytes(b"\x0C"))
     
     def set_cursor(self, x, y):
         # Set real cursor on display.  Y can be set with 8 pixel resolution.
