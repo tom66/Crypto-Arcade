@@ -48,7 +48,7 @@ class VFD(object):
 
         if AM_A_PI:
             print("I'm running on a Pi.  I have GPIO control.")
-            GPIO.setmode(GPIO.BOARD)
+            GPIO.setmode(GPIO.BCM)
             GPIO.setup(23, GPIO.IN)
             self.port = serial.Serial(port="/dev/ttyS0", baudrate=115200)
         else:
@@ -62,10 +62,9 @@ class VFD(object):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
         iters = 0
         
-        while True:
-            if GPIO.input(23) == 0:
-                break
-            #time.sleep(0.001)
+        
+        while GPIO.input(23):
+            time.sleep(0.001)
             iters += 1
         
         print("SBUSY %d ms" % iters)
