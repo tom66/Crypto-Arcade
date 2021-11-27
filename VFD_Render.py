@@ -72,8 +72,8 @@ class VFD(object):
         self.new_bytes = []
         
         for n in range(DAMAGE_ROWS):
-            self.old_bytes.append([None] * VFD_WIDTH)
-            self.new_bytes.append([None] * VFD_WIDTH)
+            self.old_bytes.append([0x00] * VFD_WIDTH)
+            self.new_bytes.append([0x00] * VFD_WIDTH)
 
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
