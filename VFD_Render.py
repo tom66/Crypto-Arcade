@@ -216,7 +216,7 @@ class VFD(object):
             yp += DAMAGE_ROW_HEIGHT
 
         # update the state
-        self.new_bytes = self.old_bytes
+        self.old_bytes = self.new_bytes
         
         return rows
     
