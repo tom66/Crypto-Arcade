@@ -137,7 +137,7 @@ class VFD(object):
 
     def calculate_damage_list(self):
         # Compute the byte arrays for each row.
-        min_runlength = 1
+        min_runlength = 15  # Runlength should be size of one move command + one bitmap header
         a = pygame.surfarray.pixels3d(self.vfd_surf)
 
         for y in range(DAMAGE_ROWS):
