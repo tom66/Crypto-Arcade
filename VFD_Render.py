@@ -171,9 +171,6 @@ class VFD(object):
     def calculate_damage_list(self):
         # For each damage row, try to find a long contiguous string of 1s, indicating
         # a section is damaged.
-        dmg = [(x | y) for x, y in zip(self.last_damage_rows, self.damage_rows)]
-        print(dmg)
-        
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         
         max_spacing = 4  # If less than 4 between this and adjacent runs, then break the runs up.
