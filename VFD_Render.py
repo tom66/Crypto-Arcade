@@ -266,6 +266,7 @@ class VFD(object):
         
         for r in range(y0, y1 + 1):
             yp = r * DAMAGE_ROW_HEIGHT
+            print(x0, x1)
             for n in range(x0, x1):
                 data.append(self.new_bytes[r][n])
 
