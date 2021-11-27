@@ -136,8 +136,7 @@ class VFD(object):
 
     def clear_damage(self):
         for n in range(DAMAGE_ROWS):
-            for x in range(x0, x1):
-                self.damage_rows[n][x] = 0
+            self.damage_rows[n] = [0] * VFD_WIDTH
     
     def text(self, font, x, y, str_, col=COL_WHITE):
         surf = font.render(str_, False, col)
