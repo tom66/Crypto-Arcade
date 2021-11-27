@@ -131,11 +131,11 @@ class VFD(object):
 
         # Two rows is all we support for now...
         if damage_start != damage_end:
-            for x in range(x0, x1 + 1):
+            for x in range(x0, x1):
                 self.damage_rows[0][x] = 1
                 self.damage_rows[1][x] = 1
         else:
-            for x in range(x0, x1 + 1):
+            for x in range(x0, x1):
                 self.damage_rows[damage_start][x] = 1
 
     def clear_damage(self):
