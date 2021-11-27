@@ -110,6 +110,7 @@ class VFD(object):
         self._wait_sbusy()
 
     def add_damage_region(self, x0, y0, x1, y1):
+        print(x0, y0, x1, y1)
         x0 = clamp(x0, 0, VFD_WIDTH)
         x1 = clamp(x1, 0, VFD_WIDTH)
 
