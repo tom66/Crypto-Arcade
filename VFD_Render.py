@@ -186,6 +186,7 @@ class VFD(object):
                         last_one = n
 
             run_ranges = []
+            print(runs)
             
             for run in runs:
                 run_ranges.append((run[0], run[-1]))
