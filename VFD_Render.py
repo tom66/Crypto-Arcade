@@ -290,7 +290,7 @@ class VFD(object):
             row_data = []
             for y, row in enumerate(rows):
                 for r in row:
-                    row_data.append(y, r[0], r[1])
+                    row_data.append((r[0], r[1], y))
             print("rdata:", row_data)
             
             for y, row in enumerate(rows):
