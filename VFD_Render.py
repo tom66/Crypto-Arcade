@@ -203,7 +203,6 @@ class VFD(object):
                     else:
                         run.append(n)
                         last_one = n
-                self.old_bytes[yn][n] = pres
 
             if len(run) > 0:
                 runs.append(run)  # Pack last run, if any.
@@ -220,7 +219,7 @@ class VFD(object):
 
         # update the state
         #print("id?", self.old_bytes == self.new_bytes)
-        #self.old_bytes = copy.copy(self.new_bytes)
+        self.old_bytes = copy.copy(self.new_bytes)
         
         return rows
     
