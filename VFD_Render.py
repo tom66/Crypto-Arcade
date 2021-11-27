@@ -167,6 +167,7 @@ class VFD(object):
 
     def calculate_damage_list(self):
         # Compute the byte arrays for each row.
+        min_runlength = 1
         a = pygame.surfarray.pixels3d(self.vfd_surf)
 
         for y in range(DAMAGE_ROWS):
@@ -199,7 +200,7 @@ class VFD(object):
             
             for n, (past, pres) in enumerate(zip(last_row, row)):
                 if past != pres:
-                    if last_one != None and (n - last_one) > 4:
+                    if last_one != None and (n - last_one) > min_runlength
                         runs.append(run)
                         run = [n]
                         last_one = n
