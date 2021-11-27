@@ -182,6 +182,7 @@ class VFD(object):
                     if last_one != None and (n - last_one) > 4:
                         runs.append(run)
                         run = [n]
+                        last_one = n
                     else:
                         run.append(n)
                         last_one = n
