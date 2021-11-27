@@ -31,8 +31,8 @@ class VFD(object):
     vfd_surf = None
     last_vfd_surf = None
     frame = 0
-    damage_rows = []
-    byte_rows = []
+    old_bytes = []
+    new_bytes = []
     
     def __init__(self, render_window):
         if render_window:
@@ -137,11 +137,6 @@ class VFD(object):
         else:
             for x in range(x0, x1):
                 self.damage_rows[damage_start][x] = 1
-
-    def clear_damage(self):
-        for n in range(DAMAGE_ROWS):
-            self.damage_rows[n] = [0] * VFD_WIDTH
-            #self.byte_rows[n] = [None] * VFD_WIDTH
     
     def text(self, font, x, y, str_, col=COL_WHITE):
         x, y = int(x), int(y)
@@ -290,7 +285,7 @@ class VFD(object):
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
         
         rows = self.calculate_damage_list()
-        self.clear_damage()
+        self.old_bytes = self.new_bytes
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
