@@ -187,6 +187,7 @@ class VFD(object):
                         run.append(n)
                         last_one = n
 
+            runs.append(run)  # Pack last run
             run_ranges = []
             print(runs)
             
