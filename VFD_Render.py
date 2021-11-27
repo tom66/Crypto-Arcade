@@ -218,7 +218,7 @@ class VFD(object):
             yn += 1
             yp += DAMAGE_ROW_HEIGHT
         
-        print(rows)
+        return rows
     
     def set_window(self, win):
         assert(win >= 0 and win <= 4)
@@ -285,7 +285,7 @@ class VFD(object):
         b = pygame.surfarray.pixels3d(self.inv_surf)
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
         
-        self.calculate_damage_list()
+        rows = self.calculate_damage_list()
         self.clear_damage()
         
         # here we stream the surface to the Noritake VFD display
@@ -294,8 +294,10 @@ class VFD(object):
             #self._send_command(b"Hello\r\n")
             #self.clear()
             #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
-            self.stream_out(self.vfd_surf, 0, 0, 111, 7)
-            self.stream_out(self.vfd_surf, 0, 8, 111, 15)
+            #self.stream_out(self.vfd_surf, 0, 0, 111, 7)
+            #self.stream_out(self.vfd_surf, 0, 8, 111, 15)
+            for row in rows:
+                print(row)
             time.sleep(0.01)
 
         # we also push it to the window and wait for the vsync
