@@ -291,7 +291,8 @@ class VFD(object):
             for y, row in enumerate(rows):
                 for r in row:
                     row_data.append((r[0], r[1], y))
-            print("rdata:", row_data)
+
+            row_data = row_data.sort(key=lambda r: r[0])
             
             for y, row in enumerate(rows):
                 for r in row:
