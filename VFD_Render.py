@@ -300,7 +300,7 @@ class VFD(object):
             for y, row in enumerate(rows):
                 for r in row:
                     print("rowdata:", r)
-                    self.stream_out(self.vfd_surf, r[0], y, r[1], y + DAMAGE_ROW_HEIGHT)
+                    self.stream_out(self.vfd_surf, r[0], y * DAMAGE_ROW_HEIGHT, r[1], (y * DAMAGE_ROW_HEIGHT) + DAMAGE_ROW_HEIGHT - 1)
             time.sleep(0.01)
 
         # we also push it to the window and wait for the vsync
