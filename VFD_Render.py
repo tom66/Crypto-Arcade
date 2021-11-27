@@ -178,7 +178,9 @@ class VFD(object):
                 new_byte |= 0x02 * (a[n][6+yp][0] != 0)
                 new_byte |= 0x01 * (a[n][7+yp][0] != 0)
                 self.new_bytes[y][n] = new_byte
-    
+
+        print("nby:", self.new_bytes)
+        
         # For each damage row, try to find a long contiguous string of disagreeing bytes, indicating
         # a section is damaged.
         
