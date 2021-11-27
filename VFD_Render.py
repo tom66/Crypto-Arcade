@@ -178,11 +178,12 @@ class VFD(object):
             
             for n, x in enumerate(row):
                 if x:
-                    if (n - last_one) > 4:
+                    if last_one != None and (n - last_one) > 4:
                         runs += run
                         run = [n]
                     else:
                         run.append(n)
+                        last_one = n
 
             run_ranges = []
             
