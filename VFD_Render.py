@@ -266,7 +266,7 @@ class VFD(object):
         for r in range(rows):
             yp = r * DAMAGE_ROW_HEIGHT
                 
-            for x in range(x0, x1):
+            for n in range(x0, x1):
                 """
                 byte = 0
                 word = 0x80
@@ -275,7 +275,7 @@ class VFD(object):
                         byte |= word
                     word >>= 1
                 """
-                byte = self.byte_rows[r][x]
+                byte = self.byte_rows[r][n]
                 
                 if byte == None:
                     byte  = 0x80 * (a[n][0+yp][0] != 0)
