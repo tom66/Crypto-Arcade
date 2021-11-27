@@ -142,24 +142,24 @@ class VFD(object):
         x, y = int(x), int(y)
         surf = font.render(str_, False, col)
         pos = (x, y)
-        self.add_damage_region(pos[0], pos[1], pos[0] + surf.get_width(), pos[1] + surf.get_height())
+        #self.add_damage_region(pos[0], pos[1], pos[0] + surf.get_width(), pos[1] + surf.get_height())
         self.vfd_surf.blit(surf, dest=(x, y))
 
     def text_right(self, font, x, y, str_, col=COL_WHITE):
         x, y = int(x), int(y)
         surf = font.render(str_, False, col)
         pos = (self.vfd_surf.get_width() - surf.get_width() - x, y)
-        self.add_damage_region(pos[0], pos[1], pos[0] + surf.get_width(), pos[1] + surf.get_height())
+        #self.add_damage_region(pos[0], pos[1], pos[0] + surf.get_width(), pos[1] + surf.get_height())
         self.vfd_surf.blit(surf, dest=pos)
 
     def line(self, x0, y0, x1, y1, w, col=COL_WHITE):
         x0, y0, x1, y1 = int(x0), int(y0), int(x1), int(y1)
-        self.add_damage_region(x0 - w + 1, y0 - w + 1, x1 + w - 1, y1 + w - 1)  # Approximate bounding box with line width
+        #self.add_damage_region(x0 - w + 1, y0 - w + 1, x1 + w - 1, y1 + w - 1)  # Approximate bounding box with line width
         pygame.draw.line(self.vfd_surf, col, (x0, y0), (x1, y1), w)
 
     def circle_inverse(self, x0, y0, r, w, col=COL_WHITE):
         x0, y0, r, w = int(x0), int(y0), int(r), int(w)
-        self.add_damage_region(x0 - r - w + 1, y0 - r - w + 1, x0 + r + w - 1, y0 + r + w - 1)
+        #self.add_damage_region(x0 - r - w + 1, y0 - r - w + 1, x0 + r + w - 1, y0 + r + w - 1)
         pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
 
     def calculate_damage_list(self):
