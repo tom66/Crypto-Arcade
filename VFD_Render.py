@@ -264,7 +264,7 @@ class VFD(object):
         data = bytearray()
         
         for r in range(rows):
-            yp = row * DAMAGE_ROW_HEIGHT
+            yp = r * DAMAGE_ROW_HEIGHT
                 
             for x in range(x0, x1):
                 """
