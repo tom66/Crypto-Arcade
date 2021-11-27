@@ -265,7 +265,7 @@ class VFD(object):
         
         for r in range(y0, y1 + 1):
             yp = r * DAMAGE_ROW_HEIGHT
-            pygame.draw.rect(self.damage_surf, (255, 0, 0), (x0, yp, x1, yp + DAMAGE_ROW_HEIGHT))
+            pygame.draw.rect(self.damage_surf, (255, 0, 0), (x0, yp, x1 - x0, DAMAGE_ROW_HEIGHT))
             
             for n in range(x0, x1):
                 data.append(self.new_bytes[r][n])
