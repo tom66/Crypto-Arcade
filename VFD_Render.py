@@ -32,6 +32,7 @@ class VFD(object):
     last_vfd_surf = None
     frame = 0
     damage_rows = []
+    byte_rows = []
     
     def __init__(self, render_window):
         if render_window:
@@ -71,6 +72,7 @@ class VFD(object):
         
         for n in range(DAMAGE_ROWS):
             self.damage_rows.append([0] * VFD_WIDTH)
+            self.byte_rows.append([None] * VFD_WIDTH)
 
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
@@ -138,6 +140,7 @@ class VFD(object):
     def clear_damage(self):
         for n in range(DAMAGE_ROWS):
             self.damage_rows[n] = [0] * VFD_WIDTH
+            self.byte_rows[n] = [None] * VFD_WIDTH
     
     def text(self, font, x, y, str_, col=COL_WHITE):
         x, y = int(x), int(y)
@@ -166,10 +169,12 @@ class VFD(object):
     def calculate_damage_list(self):
         # For each damage row, try to find a long contiguous string of 1s, indicating
         # a section is damaged.
+        a = pygame.surfarray.pixels3d(self.vfd_surf)
         
         max_spacing = 4  # If less than 4 between this and adjacent runs, then break the runs up.
         rows = [[]] * DAMAGE_ROWS
         yn = 0
+        yp = 0
         
         for row in self.damage_rows:
             last_one = None
@@ -178,14 +183,26 @@ class VFD(object):
             
             for n, x in enumerate(row):
                 if x:
-                    print(n, x)
-                    if last_one != None and (n - last_one) > 4:
-                        runs.append(run)
-                        run = [n]
-                        last_one = n
-                    else:
-                        run.append(n)
-                        last_one = n
+                    # Compute the new byte for this row and see if it differs from the old byte.  Store the byte,
+                    # because we'll need it anyway.
+                    new_byte  = 0x80 * (a[n][0+yp][0] != 0)
+                    new_byte |= 0x40 * (a[n][1+yp][0] != 0)
+                    new_byte |= 0x20 * (a[n][2+yp][0] != 0)
+                    new_byte |= 0x10 * (a[n][3+yp][0] != 0)
+                    new_byte |= 0x08 * (a[n][4+yp][0] != 0)
+                    new_byte |= 0x04 * (a[n][5+yp][0] != 0)
+                    new_byte |= 0x02 * (a[n][6+yp][0] != 0)
+                    new_byte |= 0x01 * (a[n][7+yp][0] != 0)
+
+                    if new_byte != self.byte_rows[yn]:
+                        self.byte_rows[yn][n] = new_byte
+                        if last_one != None and (n - last_one) > 4:
+                            runs.append(run)
+                            run = [n]
+                            last_one = n
+                        else:
+                            run.append(n)
+                            last_one = n
 
             if len(run) > 0:
                 runs.append(run)  # Pack last run, if any.
@@ -199,6 +216,7 @@ class VFD(object):
             
             rows[yn] = run_ranges
             yn += 1
+            yp += DAMAGE_ROW_HEIGHT
         
         print(rows)
     
