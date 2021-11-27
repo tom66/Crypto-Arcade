@@ -218,6 +218,7 @@ class VFD(object):
             yp += DAMAGE_ROW_HEIGHT
 
         # update the state
+        print("id?", self.old_bytes == self.new_bytes)
         self.old_bytes = copy.copy(self.new_bytes)
         
         return rows
