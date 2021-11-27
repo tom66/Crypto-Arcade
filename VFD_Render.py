@@ -219,7 +219,7 @@ class VFD(object):
 
         # update the state
         #print("id?", self.old_bytes == self.new_bytes)
-        self.old_bytes = copy.copy(self.new_bytes)
+        self.old_bytes = copy.deepcopy(self.new_bytes)
         
         return rows
     
