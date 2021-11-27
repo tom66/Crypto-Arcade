@@ -194,7 +194,7 @@ class VFD(object):
                     new_byte |= 0x02 * (a[n][6+yp][0] != 0)
                     new_byte |= 0x01 * (a[n][7+yp][0] != 0)
 
-                    if new_byte != self.byte_rows[yn]:
+                    if new_byte != self.byte_rows[yn][n]:
                         self.byte_rows[yn][n] = new_byte
                         if last_one != None and (n - last_one) > 4:
                             runs.append(run)
