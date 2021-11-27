@@ -178,6 +178,7 @@ class VFD(object):
             
             for n, x in enumerate(row):
                 if x:
+                    print(n, x)
                     if last_one != None and (n - last_one) > 4:
                         runs.append(run)
                         run = [n]
