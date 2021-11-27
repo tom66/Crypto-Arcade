@@ -274,7 +274,7 @@ class VFD(object):
                 data.append(self.new_bytes[r][n])
 
         print(data)
-        self._send_command(command + data + b"\x00")
+        self._send_command(command + data)
     
     def render_out(self):
         # apply invert mask to the vfd_surf
