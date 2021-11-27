@@ -173,7 +173,7 @@ class VFD(object):
 
         for y in range(DAMAGE_ROWS):
             yp = y * DAMAGE_ROW_HEIGHT
-            for x in range(VFD_WIDTH):
+            for n in range(VFD_WIDTH):
                 new_byte  = 0x80 * (a[n][0+yp][0] != 0)
                 new_byte |= 0x40 * (a[n][1+yp][0] != 0)
                 new_byte |= 0x20 * (a[n][2+yp][0] != 0)
@@ -182,7 +182,7 @@ class VFD(object):
                 new_byte |= 0x04 * (a[n][5+yp][0] != 0)
                 new_byte |= 0x02 * (a[n][6+yp][0] != 0)
                 new_byte |= 0x01 * (a[n][7+yp][0] != 0)
-                self.new_bytes[y][x] = new_byte
+                self.new_bytes[y][n] = new_byte
     
         # For each damage row, try to find a long contiguous string of disagreeing bytes, indicating
         # a section is damaged.
