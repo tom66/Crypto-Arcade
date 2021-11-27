@@ -297,7 +297,7 @@ class VFD(object):
             #self.stream_out(self.vfd_surf, 0, 0, 111, 7)
             #self.stream_out(self.vfd_surf, 0, 8, 111, 15)
             for row in rows:
-                print(row)
+                print("rowdata:", row)
             time.sleep(0.01)
 
         # we also push it to the window and wait for the vsync
