@@ -200,7 +200,7 @@ class VFD(object):
             
             for n, (past, pres) in enumerate(zip(last_row, row)):
                 if past != pres:
-                    if last_one != None and (n - last_one) > min_runlength
+                    if last_one != None and (n - last_one) > min_runlength:
                         runs.append(run)
                         run = [n]
                         last_one = n
