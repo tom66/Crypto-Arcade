@@ -180,7 +180,8 @@ class Main(object):
         c_data = self.cf.get_coin(self.current_coin)
 
         if (time.time() - c_data.updateTime) > 240:
-            self.vfd.text(self.small_font, (self.f % 300) - 150, 4, "Waiting for data...")
+            self.vfd.fill(VFD_Render.COL_WHITE)
+            self.vfd.text(self.small_font, (self.f % 300) - 150, 4, "Waiting for data...", col=VFD_Render.COL_BLACK)
             return False
         else:
             return True

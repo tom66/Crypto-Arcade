@@ -162,6 +162,9 @@ class VFD(object):
         #self.add_damage_region(x0 - r - w + 1, y0 - r - w + 1, x0 + r + w - 1, y0 + r + w - 1)
         pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
 
+    def fill(self, col=COL_BLACK):
+        self.vfd_surf.fill(col)
+
     def calculate_damage_list(self):
         # Compute the byte arrays for each row.
         a = pygame.surfarray.pixels3d(self.vfd_surf)
