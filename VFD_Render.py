@@ -286,17 +286,17 @@ class VFD(object):
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
-            #self._send_command(b"Hello\r\n")
-            #self._send_command(b"Hello\r\n")
-            #self.clear()
-            #self.stream_out(self.vfd_surf, 10 + (self.frame % 60), 0, 20 + (self.frame % 60), 0)
-            #self.stream_out(self.vfd_surf, 0, 0, 111, 7)
-            #self.stream_out(self.vfd_surf, 0, 8, 111, 15)
+            # Sort data by X.
+            row_data = []
             for y, row in enumerate(rows):
                 for r in row:
-                    print("rowdata:", r)
+                    row_data.append(y, r[0], r[1])
+            print("rdata:", row_data)
+            
+            for y, row in enumerate(rows):
+                for r in row:
+                    #print("rowdata:", r)
                     self.stream_out(self.vfd_surf, r[0], y * DAMAGE_ROW_HEIGHT, r[1], (y * DAMAGE_ROW_HEIGHT) + DAMAGE_ROW_HEIGHT - 1)
-            time.sleep(0.01)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
