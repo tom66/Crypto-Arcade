@@ -206,7 +206,7 @@ class VFD(object):
                 runs.append(run)  # Pack last run, if any.
             
             run_ranges = []
-            print(runs)
+            print("runs:", runs)
             
             for run in runs:
                 run_ranges.append((run[0], run[-1]))
