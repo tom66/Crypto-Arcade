@@ -111,55 +111,25 @@ class VFD(object):
                     break
         
         self._wait_sbusy()
-
-    def add_damage_region(self, x0, y0, x1, y1):
-        print(x0, y0, x1, y1)
-        x0 = clamp(x0, 0, VFD_WIDTH - 1)
-        x1 = clamp(x1, 0, VFD_WIDTH - 1)
-
-        if x0 > x1:
-            x1, x0 = x0, x1
-
-        y0 = clamp(y0, 0, VFD_HEIGHT - 1)
-        y1 = clamp(y1, 0, VFD_HEIGHT - 1)
-
-        if y0 > y1:
-            y1, y0 = y0, y1
-        
-        damage_start = int(y0 / DAMAGE_ROW_HEIGHT)
-        damage_end = int(y1 / DAMAGE_ROW_HEIGHT)
-
-        # Two rows is all we support for now...
-        if damage_start != damage_end:
-            for x in range(x0, x1):
-                self.damage_rows[0][x] = 1
-                self.damage_rows[1][x] = 1
-        else:
-            for x in range(x0, x1):
-                self.damage_rows[damage_start][x] = 1
     
     def text(self, font, x, y, str_, col=COL_WHITE):
         x, y = int(x), int(y)
         surf = font.render(str_, False, col)
         pos = (x, y)
-        #self.add_damage_region(pos[0], pos[1], pos[0] + surf.get_width(), pos[1] + surf.get_height())
         self.vfd_surf.blit(surf, dest=(x, y))
 
     def text_right(self, font, x, y, str_, col=COL_WHITE):
         x, y = int(x), int(y)
         surf = font.render(str_, False, col)
         pos = (self.vfd_surf.get_width() - surf.get_width() - x, y)
-        #self.add_damage_region(pos[0], pos[1], pos[0] + surf.get_width(), pos[1] + surf.get_height())
         self.vfd_surf.blit(surf, dest=pos)
 
     def line(self, x0, y0, x1, y1, w, col=COL_WHITE):
         x0, y0, x1, y1 = int(x0), int(y0), int(x1), int(y1)
-        #self.add_damage_region(x0 - w + 1, y0 - w + 1, x1 + w - 1, y1 + w - 1)  # Approximate bounding box with line width
         pygame.draw.line(self.vfd_surf, col, (x0, y0), (x1, y1), w)
 
     def circle_inverse(self, x0, y0, r, w, col=COL_WHITE):
         x0, y0, r, w = int(x0), int(y0), int(r), int(w)
-        #self.add_damage_region(x0 - r - w + 1, y0 - r - w + 1, x0 + r + w - 1, y0 + r + w - 1)
         pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
 
     def fill(self, col=COL_BLACK):
@@ -183,7 +153,7 @@ class VFD(object):
                 new_byte |= 0x01 * (a[n][7+yp][0] != 0)
                 self.new_bytes[y][n] = new_byte
 
-        print("nby:", self.new_bytes)
+        #print("nby:", self.new_bytes)
         
         # For each damage row, try to find a long contiguous string of disagreeing bytes, indicating
         # a section is damaged.
@@ -212,7 +182,7 @@ class VFD(object):
                 runs.append(run)  # Pack last run, if any.
             
             run_ranges = []
-            print("runs:", runs)
+            #print("runs:", runs)
             
             for run in runs:
                 run_ranges.append((run[0], clamp(run[-1] + 1, 0, VFD_WIDTH - 1)))
@@ -242,7 +212,7 @@ class VFD(object):
     
     def set_cursor(self, x, y):
         # Set real cursor on display.  Y can be set with 8 pixel resolution.
-        print("set_cursor(%r,%r)" % (x, y))
+        #print("set_cursor(%r,%r)" % (x, y))
         if (y & 0x07) > 0:
             raise ValueError("y not divisible by 8")
 
@@ -274,7 +244,7 @@ class VFD(object):
             for n in range(x0, x1):
                 data.append(self.new_bytes[r][n])
 
-        print(data)
+        #print(data)
         self._send_command(command + data)
     
     def render_out(self):
