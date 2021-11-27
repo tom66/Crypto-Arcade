@@ -285,7 +285,6 @@ class VFD(object):
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
         
         rows = self.calculate_damage_list()
-        self.old_bytes = self.new_bytes
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
