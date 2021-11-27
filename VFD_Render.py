@@ -276,6 +276,7 @@ class VFD(object):
                 
                 data.append(self.new_bytes[r][n])
 
+        print(data)
         self._send_command(command + data + b"\x00")
     
     def render_out(self):
