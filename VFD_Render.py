@@ -211,7 +211,7 @@ class VFD(object):
             print("runs:", runs)
             
             for run in runs:
-                run_ranges.append((run[0], run[-1]))
+                run_ranges.append((run[0], clamp(run[-1] + 1, 0, VFD_WIDTH - 1)))
             
             rows[yn] = run_ranges
             yp += DAMAGE_ROW_HEIGHT
