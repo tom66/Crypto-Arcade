@@ -211,7 +211,7 @@ class VFD(object):
             print("runs:", runs)
             
             for run in runs:
-                run_ranges.append((run[0], run[-1] + 2))
+                run_ranges.append((run[0], clamp(run[-1] + 2, 0, VFD_WIDTH - 1)))
                 pygame.draw.rect(self.damage_surf, (255, 0, 0), (run[0], yn * DAMAGE_ROW_HEIGHT, run[-1] - run[0], DAMAGE_ROW_HEIGHT))
             
             rows[yn] = run_ranges
