@@ -255,15 +255,13 @@ class VFD(object):
         command += struct.pack("@hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
         command += b"\x01"
 
-        # Pack image data, one row at a time
+        # Pack image data, one row at a time.  Use cached values if available, and update
+        # the cache as we go.
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         
-        rows = y1 - y0 + 1
-        #print(rows)
-
         data = bytearray()
         
-        for r in range(rows):
+        for r in range(y0, y1):
             yp = r * DAMAGE_ROW_HEIGHT
                 
             for n in range(x0, x1):
@@ -286,6 +284,7 @@ class VFD(object):
                     byte |= 0x04 * (a[n][5+yp][0] != 0)
                     byte |= 0x02 * (a[n][6+yp][0] != 0)
                     byte |= 0x01 * (a[n][7+yp][0] != 0)
+                    self.byte_rows[r][n] = byte
                 
                 data.append(byte)
         
