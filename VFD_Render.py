@@ -113,14 +113,14 @@ class VFD(object):
 
     def add_damage_region(self, x0, y0, x1, y1):
         print(x0, y0, x1, y1)
-        x0 = clamp(x0, 0, VFD_WIDTH)
-        x1 = clamp(x1, 0, VFD_WIDTH)
+        x0 = clamp(x0, 0, VFD_WIDTH - 1)
+        x1 = clamp(x1, 0, VFD_WIDTH - 1)
 
         if x0 > x1:
             x1, x0 = x0, x1
 
-        y0 = clamp(y0, 0, VFD_HEIGHT)
-        y1 = clamp(y1, 0, VFD_HEIGHT)
+        y0 = clamp(y0, 0, VFD_HEIGHT - 1)
+        y1 = clamp(y1, 0, VFD_HEIGHT - 1)
 
         if y0 > y1:
             y1, y0 = y0, y1
@@ -250,8 +250,6 @@ class VFD(object):
 
         y0 = int(y0 / 8)
         y1 = int(y1 / 8)
-
-        #print(y0, y1)
         
         command = b"\x1F\x28\x66\x11"
         command += struct.pack("@hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
@@ -264,16 +262,31 @@ class VFD(object):
         #print(rows)
 
         data = bytearray()
-        yr = y0 * 8
         
         for r in range(rows):
+            yp = row * DAMAGE_ROW_HEIGHT
+                
             for x in range(x0, x1):
+                """
                 byte = 0
                 word = 0x80
                 for yy in range(yr+0, yr+8):
                     if a[x][yy+(r*8)][0] != 0:
                         byte |= word
                     word >>= 1
+                """
+                byte = self.byte_rows[r][x]
+                
+                if byte == None:
+                    byte  = 0x80 * (a[n][0+yp][0] != 0)
+                    byte |= 0x40 * (a[n][1+yp][0] != 0)
+                    byte |= 0x20 * (a[n][2+yp][0] != 0)
+                    byte |= 0x10 * (a[n][3+yp][0] != 0)
+                    byte |= 0x08 * (a[n][4+yp][0] != 0)
+                    byte |= 0x04 * (a[n][5+yp][0] != 0)
+                    byte |= 0x02 * (a[n][6+yp][0] != 0)
+                    byte |= 0x01 * (a[n][7+yp][0] != 0)
+                
                 data.append(byte)
         
         #data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
