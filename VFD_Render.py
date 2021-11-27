@@ -236,6 +236,7 @@ class VFD(object):
     
     def set_cursor(self, x, y):
         # Set real cursor on display.  Y can be set with 8 pixel resolution.
+        print("set_cursor(%r,%r)" % (x, y))
         if (y & 0x07) > 0:
             raise ValueError("y not divisible by 8")
 
