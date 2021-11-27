@@ -257,7 +257,7 @@ class VFD(object):
         y1 = int(y1 / 8)
         
         command = b"\x1F\x28\x66\x11"
-        command += struct.pack("@hh", x1 - x0 + 1, y1 - y0 + 1)  # append size
+        command += struct.pack("@hh", x1 - x0, y1 - y0 + 1)  # append size
         command += b"\x01"
 
         # Pack image data, one row at a time.  Use cached values if available, and update
