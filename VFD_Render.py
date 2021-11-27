@@ -171,7 +171,7 @@ class VFD(object):
     def calculate_damage_list(self):
         # For each damage row, try to find a long contiguous string of 1s, indicating
         # a section is damaged.
-        dmg = [any(i) for i in zip(self.last_damage_row, self.damage_rows)]
+        dmg = [any(i) for i in zip(self.last_damage_rows, self.damage_rows)]
         print(dmg)
         
         a = pygame.surfarray.pixels3d(self.vfd_surf)
