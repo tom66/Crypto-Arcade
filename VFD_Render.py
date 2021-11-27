@@ -203,6 +203,7 @@ class VFD(object):
                     else:
                         run.append(n)
                         last_one = n
+                self.old_bytes[yn][n] = pres
 
             if len(run) > 0:
                 runs.append(run)  # Pack last run, if any.
@@ -218,7 +219,7 @@ class VFD(object):
             yp += DAMAGE_ROW_HEIGHT
 
         # update the state
-        print("id?", self.old_bytes == self.new_bytes)
+        #print("id?", self.old_bytes == self.new_bytes)
         #self.old_bytes = copy.copy(self.new_bytes)
         
         return rows
@@ -266,17 +267,7 @@ class VFD(object):
         
         for r in range(y0, y1 + 1):
             yp = r * DAMAGE_ROW_HEIGHT
-                
             for n in range(x0, x1):
-                """
-                byte = 0
-                word = 0x80
-                for yy in range(yr+0, yr+8):
-                    if a[x][yy+(r*8)][0] != 0:
-                        byte |= word
-                    word >>= 1
-                """
-                
                 data.append(self.new_bytes[r][n])
 
         print(data)
