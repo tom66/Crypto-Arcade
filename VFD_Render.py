@@ -69,9 +69,11 @@ class VFD(object):
 
         # Reset the damage arrays
         self.damage_rows = []
+        self.last_damage_rows = []
         
         for n in range(DAMAGE_ROWS):
             self.damage_rows.append([0] * VFD_WIDTH)
+            self.last_damage_rows.append([0] * VFD_WIDTH)
             self.byte_rows.append([None] * VFD_WIDTH)
 
     def _wait_sbusy(self):
@@ -130,11 +132,11 @@ class VFD(object):
 
         # Two rows is all we support for now...
         if damage_start != damage_end:
-            for x in range(x0, x1):
+            for x in range(x0, x1 + 1):
                 self.damage_rows[0][x] = 1
                 self.damage_rows[1][x] = 1
         else:
-            for x in range(x0, x1):
+            for x in range(x0, x1 + 1):
                 self.damage_rows[damage_start][x] = 1
 
     def clear_damage(self):
@@ -169,6 +171,8 @@ class VFD(object):
     def calculate_damage_list(self):
         # For each damage row, try to find a long contiguous string of 1s, indicating
         # a section is damaged.
+        self.damage_rows = self.last_damage_rows | self.damage_rows
+        
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         
         max_spacing = 4  # If less than 4 between this and adjacent runs, then break the runs up.
