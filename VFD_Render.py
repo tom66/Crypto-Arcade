@@ -140,7 +140,7 @@ class VFD(object):
     def clear_damage(self):
         for n in range(DAMAGE_ROWS):
             self.damage_rows[n] = [0] * VFD_WIDTH
-            self.byte_rows[n] = [None] * VFD_WIDTH
+            #self.byte_rows[n] = [None] * VFD_WIDTH
     
     def text(self, font, x, y, str_, col=COL_WHITE):
         x, y = int(x), int(y)
