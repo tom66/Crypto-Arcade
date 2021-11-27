@@ -68,13 +68,12 @@ class VFD(object):
         self.clear()
 
         # Reset the damage arrays
-        self.damage_rows = []
-        self.last_damage_rows = []
+        self.old_bytes = []
+        self.new_bytes = []
         
         for n in range(DAMAGE_ROWS):
-            self.damage_rows.append([0] * VFD_WIDTH)
-            self.last_damage_rows.append([0] * VFD_WIDTH)
-            self.byte_rows.append([None] * VFD_WIDTH)
+            self.old_bytes.append([None] * VFD_WIDTH)
+            self.new_bytes.append([None] * VFD_WIDTH)
 
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
@@ -169,42 +168,44 @@ class VFD(object):
         pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
 
     def calculate_damage_list(self):
-        # For each damage row, try to find a long contiguous string of 1s, indicating
-        # a section is damaged.
+        # Compute the byte arrays for each row.
         a = pygame.surfarray.pixels3d(self.vfd_surf)
+
+        for y in range(DAMAGE_ROWS):
+            yp = y * DAMAGE_ROW_HEIGHT
+            for x in range(VFD_WIDTH):
+                new_byte  = 0x80 * (a[n][0+yp][0] != 0)
+                new_byte |= 0x40 * (a[n][1+yp][0] != 0)
+                new_byte |= 0x20 * (a[n][2+yp][0] != 0)
+                new_byte |= 0x10 * (a[n][3+yp][0] != 0)
+                new_byte |= 0x08 * (a[n][4+yp][0] != 0)
+                new_byte |= 0x04 * (a[n][5+yp][0] != 0)
+                new_byte |= 0x02 * (a[n][6+yp][0] != 0)
+                new_byte |= 0x01 * (a[n][7+yp][0] != 0)
+                self.new_bytes[y][x] = new_byte
+    
+        # For each damage row, try to find a long contiguous string of disagreeing bytes, indicating
+        # a section is damaged.
         
         max_spacing = 4  # If less than 4 between this and adjacent runs, then break the runs up.
         rows = [[]] * DAMAGE_ROWS
         yp = 0
         
-        for yn, row in enumerate(self.damage_rows):
-            last_row = self.last_damage_rows[yn]
+        for yn, row in enumerate(self.new_bytes):
+            last_row = self.old_bytes[yn]
             last_one = None
             runs = []
             run = []
             
-            for n, x in enumerate(zip(last_row, row)):
-                if x:
-                    # Compute the new byte for this row and see if it differs from the old byte.  Store the byte,
-                    # because we'll need it anyway.
-                    new_byte  = 0x80 * (a[n][0+yp][0] != 0)
-                    new_byte |= 0x40 * (a[n][1+yp][0] != 0)
-                    new_byte |= 0x20 * (a[n][2+yp][0] != 0)
-                    new_byte |= 0x10 * (a[n][3+yp][0] != 0)
-                    new_byte |= 0x08 * (a[n][4+yp][0] != 0)
-                    new_byte |= 0x04 * (a[n][5+yp][0] != 0)
-                    new_byte |= 0x02 * (a[n][6+yp][0] != 0)
-                    new_byte |= 0x01 * (a[n][7+yp][0] != 0)
-
-                    if new_byte != self.byte_rows[yn][n]:
-                        self.byte_rows[yn][n] = new_byte
-                        if last_one != None and (n - last_one) > 4:
-                            runs.append(run)
-                            run = [n]
-                            last_one = n
-                        else:
-                            run.append(n)
-                            last_one = n
+            for n, (past, pres) in enumerate(zip(last_row, row)):
+                if past != pres:
+                    if last_one != None and (n - last_one) > 4:
+                        runs.append(run)
+                        run = [n]
+                        last_one = n
+                    else:
+                        run.append(n)
+                        last_one = n
 
             if len(run) > 0:
                 runs.append(run)  # Pack last run, if any.
@@ -218,6 +219,9 @@ class VFD(object):
             
             rows[yn] = run_ranges
             yp += DAMAGE_ROW_HEIGHT
+
+        # update the state
+        self.new_bytes = self.old_bytes
         
         return rows
     
@@ -274,22 +278,8 @@ class VFD(object):
                         byte |= word
                     word >>= 1
                 """
-                byte = self.byte_rows[r][n]
                 
-                if byte == None:
-                    byte  = 0x80 * (a[n][0+yp][0] != 0)
-                    byte |= 0x40 * (a[n][1+yp][0] != 0)
-                    byte |= 0x20 * (a[n][2+yp][0] != 0)
-                    byte |= 0x10 * (a[n][3+yp][0] != 0)
-                    byte |= 0x08 * (a[n][4+yp][0] != 0)
-                    byte |= 0x04 * (a[n][5+yp][0] != 0)
-                    byte |= 0x02 * (a[n][6+yp][0] != 0)
-                    byte |= 0x01 * (a[n][7+yp][0] != 0)
-                    self.byte_rows[r][n] = byte
-                
-                data.append(byte)
-        
-        #data = b"\x55\x00\x55\x00\x55\x00\x55\x00\x55\x00\x55"
+                data.append(self.new_bytes[r][n])
 
         self._send_command(command + data + b"\x00")
     
