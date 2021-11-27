@@ -178,15 +178,15 @@ class VFD(object):
         
         max_spacing = 4  # If less than 4 between this and adjacent runs, then break the runs up.
         rows = [[]] * DAMAGE_ROWS
-        yn = 0
         yp = 0
         
-        for row in dmg:
+        for yn, row in enumerate(self.damage_rows):
+            last_row = self.last_damage_rows[yn]
             last_one = None
             runs = []
             run = []
             
-            for n, x in enumerate(row):
+            for n, x in enumerate(zip(last_row, row)):
                 if x:
                     # Compute the new byte for this row and see if it differs from the old byte.  Store the byte,
                     # because we'll need it anyway.
@@ -220,7 +220,6 @@ class VFD(object):
                 pygame.draw.rect(self.damage_surf, (255, 0, 0), (run[0], yn * DAMAGE_ROW_HEIGHT, run[-1] - run[0], DAMAGE_ROW_HEIGHT))
             
             rows[yn] = run_ranges
-            yn += 1
             yp += DAMAGE_ROW_HEIGHT
         
         return rows
