@@ -236,8 +236,8 @@ class Main(object):
                     self.state = ST_RENDER_A_COIN
                     self.f = 0
             elif self.transition == 1:
-                self.vfd.transition_dissolve(40 - self.f)
-                if self.f > 40:
+                self.vfd.transition_dissolve(25 - self.f)
+                if self.f > 25:
                     self.state = ST_RENDER_A_COIN
                     self.f = 0
             else:
