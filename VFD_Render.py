@@ -157,7 +157,7 @@ class VFD(object):
                 new_byte |= 0x01 * (a[n][7+yp][0] != 0)
                 self.new_bytes[y][n] = new_byte
 
-            print("bits:", numpy.packbits(a, axis=0))
+            print("bits:", numpy.packbits(a, axis=1))
             print("calc:", self.new_bytes[y])
 
         t1 = time.time()
