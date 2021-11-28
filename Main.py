@@ -218,7 +218,7 @@ class Main(object):
                 self.render_invert_concentric_circles(120, self.f - 200)
         elif self.effect == 1:
             if 200 < self.f < 400:
-                self.render_invert_concentric_circles(0, self.f - 200)
+                self.render_invert_concentric_circles(-10, self.f - 200)
         
 
     def render_frame(self):
