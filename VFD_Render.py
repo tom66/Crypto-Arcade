@@ -44,6 +44,9 @@ class VFD(object):
         self.vfd_surf = pygame.Surface(size=(VFD_WIDTH, VFD_HEIGHT))
         self.vfd_surf.fill((0, 0, 0))
             
+        self.saved_vfd_surf = pygame.Surface(size=(VFD_WIDTH, VFD_HEIGHT))
+        self.saved_vfd_surf.fill((0, 0, 0))
+            
         self.temp_surf = pygame.Surface(size=(VFD_WIDTH, VFD_HEIGHT))
         self.temp_surf.fill((0, 0, 0))
         
@@ -235,6 +238,15 @@ class VFD(object):
 
         #print(data)
         self._send_command(command + data)
+
+    def save_surface(self):
+        # Save the current VFD surface so a transition/effect can be applied.
+        self.saved_vfd_surf.blit(self.vfd_surf, (0, 0))
+
+    def transition_scroll(self, amt):
+        # Blit the old surface onto the new surface and scroll it away with a line
+        self.vfd_surf.blit(self.saved_vfd_surf, (amt, 0), area=(amt, 0, VFD_WIDTH - clamp(amt, 0, VFD_WIDTH), VFD_HEIGHT))
+        self.line(amt, 0, amt, VFD_HEIGHT, 5, COL_WHITE)
     
     def render_out(self):
         # apply invert mask to the vfd_surf

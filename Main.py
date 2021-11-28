@@ -5,6 +5,7 @@ import pygame, time, locale, random
 RENDER_TO_WINDOW = True
 
 ST_RENDER_A_COIN = 1
+ST_TRANSITION = 2
 
 # Add coins you want to see here.
 COINS = [
@@ -60,6 +61,7 @@ class Main(object):
     current_coin = None
     cd = None
     arrow = 0
+    transition = 0
     priceTest = 8.00
 
     def __init__(self):
@@ -218,9 +220,22 @@ class Main(object):
             if self.check_data_ready():
                 self.render_a_coin()
 
-            if (self.f % 1200) > 1150:
+            if (self.f % 1200) > 200:
                 self.f = 0
+                self.vfd.save_surface()
                 self.next_coin()
+                self.state = ST_TRANSITION
+                self.transition = 0 #random.choice([0, 1, 2])
+        elif self.state == ST_TRANSITION:
+            if self.check_data_ready():
+                self.render_a_coin()
+            
+            if self.transition == 0:
+                self.vfd.transition_scroll(int(self.f * 3.5))
+                if self.f > 50:
+                    self.state = ST_RENDER_A_COIN
+            else:
+                self.state = ST_RENDER_A_COIN
 
     def next_coin(self):
         self.arrow = random.choice([0, 1, 2])
