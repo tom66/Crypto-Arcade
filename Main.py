@@ -220,7 +220,7 @@ class Main(object):
             if self.check_data_ready():
                 self.render_a_coin()
 
-            if (self.f % 1200) > 200:
+            if (self.f % 1200) > 1150:
                 self.f = 0
                 self.vfd.save_surface()
                 self.next_coin()
@@ -234,10 +234,12 @@ class Main(object):
                 self.vfd.transition_scroll(int(self.f * 3.5))
                 if self.f > 50:
                     self.state = ST_RENDER_A_COIN
+                    self.f = 0
             elif self.transition == 1:
-                self.vfd.transition_dissolve(25 - self.f)
-                if self.f > 25:
+                self.vfd.transition_dissolve(40 - self.f)
+                if self.f > 40:
                     self.state = ST_RENDER_A_COIN
+                    self.f = 0
             else:
                 self.state = ST_RENDER_A_COIN
 

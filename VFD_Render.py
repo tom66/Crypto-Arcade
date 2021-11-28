@@ -253,7 +253,7 @@ class VFD(object):
     def transition_dissolve(self, amt):
         self.my_random.seed(0)
         
-        # blocks of 4x4 pixels on a grid are allocated to be old or new, with a higher 'amt' figure determining more new than old.
+        # blocks of NxN pixels on a grid are allocated to be old or new, with a higher 'amt' figure determining more new than old.
         allocs = []
         blkwidth = 4
         blkheight = 4
@@ -274,7 +274,7 @@ class VFD(object):
                 self.vfd_surf.blit(self.saved_vfd_surf, (nx * blkwidth, ny * blkheight), area=(nx * blkwidth, ny * blkheight, blkwidth, blkheight))
                 break
 
-        print(amt, allocs)
+        #print(amt, allocs)
     
     def render_out(self):
         # apply invert mask to the vfd_surf
