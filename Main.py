@@ -184,7 +184,7 @@ class Main(object):
 
         if (time.time() - c_data.updateTime) > 240:
             self.vfd.fill(VFD_Render.COL_WHITE)
-            self.vfd.text(self.small_font, (self.f % 400) - 200, 4, "Waiting for data (%s)" % self.current_coin, col=VFD_Render.COL_BLACK)
+            self.vfd.text(self.small_font, 600 - (self.f % 400), 4, "Waiting for data (%s)" % self.current_coin, col=VFD_Render.COL_BLACK)
             return False
         else:
             return True
