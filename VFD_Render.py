@@ -250,8 +250,8 @@ class VFD(object):
         # apply invert mask to the vfd_surf
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         b = pygame.surfarray.pixels3d(self.inv_surf)
-        self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
-        self.vfd_surfarray = a
+        self.vfd_surfarray = a ^ b
+        self.vfd_surf = pygame.surfarray.make_surface(self.vfd_surfarray)
 
         t0 = time.time()
         rows = self.calculate_damage_list()
