@@ -102,7 +102,7 @@ class Main(object):
         self.vfd.line(x - (f / 4), 15, x + (f / 4), 15, 1)
         
     def render_arrow_up_scroll(self, x, f):
-        f %= 32
+        f %= 40
         w = 16
         y = 32 - (f + 16)
         
@@ -146,7 +146,7 @@ class Main(object):
         self.vfd.line(x - (f / 4), 0 - y, x + (f / 4), 0 - y, 1)
         
     def render_arrow_down_scroll(self, x, f):
-        f %= 32
+        f %= 40
         w = 16
         y = 32 - (f + 16)
         
