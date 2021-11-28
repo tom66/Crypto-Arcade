@@ -143,10 +143,10 @@ class VFD(object):
 
         t0 = time.time()
 
+        """
         for y in range(DAMAGE_ROWS):
             yp = y * DAMAGE_ROW_HEIGHT
 
-            """
             for n in range(VFD_WIDTH):
                 new_byte  = 0x80 * (a[n][0+yp][0] != 0)
                 new_byte |= 0x40 * (a[n][1+yp][0] != 0)
@@ -157,11 +157,13 @@ class VFD(object):
                 new_byte |= 0x02 * (a[n][6+yp][0] != 0)
                 new_byte |= 0x01 * (a[n][7+yp][0] != 0)
                 self.new_bytes[y][n] = new_byte
-            """
 
-            print(numpy.packbits(a[:][y], axis=1))
             #print("calc:", self.new_bytes[y])
+        """
 
+        packed = numpy.packbits(a, axis=1)
+        print(packed)
+        
         t1 = time.time()
         print("subprocess: %d" % ((t1 - t0) * 1000))
 
