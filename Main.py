@@ -34,7 +34,7 @@ def usd_fmt_nodec(val):
     elif val < 1000:
         return "$" + locale.format_string("%.2f", val, grouping=True, monetary=False)
     elif val < 10000:
-        return "$" + locale.format_string("%.1f", val, grouping=True, monetary=False)
+        return "$" + locale.format_string("%.0f", val, grouping=True, monetary=False)
     elif val < 100000:
         return "$" + locale.format_string("%.2f", val / 1000, grouping=True, monetary=False) + "k"
     elif val < 10000000:
@@ -183,7 +183,7 @@ class Main(object):
 
         if (time.time() - c_data.updateTime) > 240:
             self.vfd.fill(VFD_Render.COL_WHITE)
-            self.vfd.text(self.small_font, (self.f % 300) - 150, 4, "Waiting for data...", col=VFD_Render.COL_BLACK)
+            self.vfd.text(self.small_font, (self.f % 400) - 200, 4, "Waiting for data (%s)" % self.current_coin, col=VFD_Render.COL_BLACK)
             return False
         else:
             return True
@@ -225,7 +225,7 @@ class Main(object):
                 self.vfd.save_surface()
                 self.next_coin()
                 self.state = ST_TRANSITION
-                self.transition = 1 # random.choice([0, 1, 2])
+                self.transition = random.choice([0, 1])
         elif self.state == ST_TRANSITION:
             if self.check_data_ready():
                 self.render_a_coin()
