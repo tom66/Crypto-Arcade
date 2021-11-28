@@ -141,6 +141,8 @@ class VFD(object):
         min_runlength = 15  # Runlength should be size of one move command + one bitmap header
         a = self.vfd_surfarray
 
+        t0 = time.time()
+
         for y in range(DAMAGE_ROWS):
             yp = y * DAMAGE_ROW_HEIGHT
             for n in range(VFD_WIDTH):
@@ -153,6 +155,9 @@ class VFD(object):
                 new_byte |= 0x02 * (a[n][6+yp][0] != 0)
                 new_byte |= 0x01 * (a[n][7+yp][0] != 0)
                 self.new_bytes[y][n] = new_byte
+
+        t1 = time.time()
+        print("subprocess: %d" % ((t1 - t0) * 1000))
 
         #print("nby:", self.new_bytes)
         
