@@ -162,7 +162,7 @@ class VFD(object):
         """
 
         packed = numpy.packbits(a, axis=1)
-        print(packed[0][0:VFD_WIDTH])
+        print(packed[0:VFD_WIDTH])
         
         t1 = time.time()
         print("subprocess: %d" % ((t1 - t0) * 1000))
