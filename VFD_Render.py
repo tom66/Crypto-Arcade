@@ -159,7 +159,7 @@ class VFD(object):
                 self.new_bytes[y][n] = new_byte
             """
 
-            numpy.packbits(a, axis=1)
+            print(numpy.packbits(a[:][y], axis=1))
             #print("calc:", self.new_bytes[y])
 
         t1 = time.time()
