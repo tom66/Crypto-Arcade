@@ -247,7 +247,7 @@ class VFD(object):
         rows = self.calculate_damage_list()
         t1 = time.time()
 
-        print((t1 - t0) * 1000)
+        #print((t1 - t0) * 1000)
         
         # here we stream the surface to the Noritake VFD display
         if AM_A_PI:
