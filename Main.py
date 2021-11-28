@@ -63,6 +63,7 @@ class Main(object):
     arrow = 0
     transition = 0
     priceTest = 8.00
+    effect = 0
 
     def __init__(self):
         self.vfd = VFD_Render.VFD(RENDER_TO_WINDOW)
@@ -175,8 +176,8 @@ class Main(object):
 
     def render_invert_concentric_circles(self, x, f):
         f %= 200
-        self.vfd.circle_inverse(x, 8, f + 7, 6)
-        self.vfd.circle_inverse(x, 8, f + 14, 6)
+        self.vfd.circle_inverse(x, 8, f + 7, 7)
+        self.vfd.circle_inverse(x, 8, f + 14, 7)
 
     def check_data_ready(self):
         c_data = self.cf.get_coin(self.current_coin)
@@ -212,8 +213,13 @@ class Main(object):
             
         #self.render_invert_concentric_circles(0, self.f % 200)
 
-        if 200 < self.f < 400:
-            self.render_invert_concentric_circles(120, self.f - 200)
+        if self.effect == 0:
+            if 200 < self.f < 400:
+                self.render_invert_concentric_circles(120, self.f - 200)
+        elif self.effect == 1:
+            if 200 < self.f < 400:
+                self.render_invert_concentric_circles(0, 200 - self.f)
+        
 
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
@@ -226,6 +232,7 @@ class Main(object):
                 self.next_coin()
                 self.state = ST_TRANSITION
                 self.transition = random.choice([0, 1])
+                self.effect = random.choice([0, 1, 2])
         elif self.state == ST_TRANSITION:
             if self.check_data_ready():
                 self.render_a_coin()
