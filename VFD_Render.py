@@ -1,4 +1,4 @@
-import pygame, sys, pprint, copy, time, struct
+import pygame, sys, pprint, copy, time, struct, numpy
 
 pygame.init()
 
