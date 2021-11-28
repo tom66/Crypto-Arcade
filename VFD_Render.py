@@ -29,6 +29,7 @@ def clamp(val, minval, maxval):
 class VFD(object):
     window = None
     vfd_surf = None
+    vfd_surfarray = None
     last_vfd_surf = None
     frame = 0
     old_bytes = []
@@ -138,7 +139,7 @@ class VFD(object):
     def calculate_damage_list(self):
         # Compute the byte arrays for each row.
         min_runlength = 15  # Runlength should be size of one move command + one bitmap header
-        a = pygame.surfarray.pixels3d(self.vfd_surf)
+        a = self.vfd_surfarray
 
         for y in range(DAMAGE_ROWS):
             yp = y * DAMAGE_ROW_HEIGHT
@@ -233,8 +234,6 @@ class VFD(object):
 
         # Pack image data, one row at a time.  Use cached values if available, and update
         # the cache as we go.
-        a = pygame.surfarray.pixels3d(self.vfd_surf)
-        
         data = bytearray()
         
         for r in range(y0, y1 + 1):
@@ -252,6 +251,7 @@ class VFD(object):
         a = pygame.surfarray.pixels3d(self.vfd_surf)
         b = pygame.surfarray.pixels3d(self.inv_surf)
         self.vfd_surf = pygame.surfarray.make_surface(a ^ b)
+        self.vfd_surfarray = a
 
         t0 = time.time()
         rows = self.calculate_damage_list()
