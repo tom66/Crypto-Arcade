@@ -246,7 +246,7 @@ class VFD(object):
     def transition_scroll(self, amt):
         # Blit the old surface onto the new surface and scroll it away with a line
         self.vfd_surf.blit(self.saved_vfd_surf, (amt, 0), area=(amt, 0, VFD_WIDTH - clamp(amt, 0, VFD_WIDTH), VFD_HEIGHT))
-        self.line(amt, 0, amt, VFD_HEIGHT, 5, COL_WHITE)
+        self.line(amt, 0, amt, VFD_HEIGHT, 20, COL_WHITE)
     
     def render_out(self):
         # apply invert mask to the vfd_surf
