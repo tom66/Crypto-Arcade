@@ -1,4 +1,4 @@
-import pygame, sys, pprint, copy, time, struct, numpy
+import pygame, sys, pprint, copy, time, struct, numpy, random
 
 pygame.init()
 
@@ -70,6 +70,8 @@ class VFD(object):
         self.re_init()
         self.set_window(0)
         self.clear()
+
+        self.my_random = random.Random(0)
 
         # Reset the damage arrays
         self.old_bytes = []
@@ -247,6 +249,32 @@ class VFD(object):
         # Blit the old surface onto the new surface and scroll it away with a line
         self.vfd_surf.blit(self.saved_vfd_surf, (amt, 0), area=(amt, 0, VFD_WIDTH - clamp(amt, 0, VFD_WIDTH), VFD_HEIGHT))
         self.line(amt, 0, amt, VFD_HEIGHT, 20, COL_WHITE)
+
+    def transition_dissolve(self, amt):
+        self.my_random.seed(0)
+        
+        # blocks of 4x4 pixels on a grid are allocated to be old or new, with a higher 'amt' figure determining more new than old.
+        allocs = []
+        blkwidth = 4
+        blkheight = 4
+        nx, ny = None, None
+
+        # maximum allocs
+        maxallocs = ((VFD_WIDTH / blkwidth) * (VFD_HEIGHT / blkheight)) - 1
+        
+        for i in range(amt * 5):
+            while True:
+                nx = self.my_random.randrange(0, VFD_WIDTH / blkwidth)
+                ny = self.my_random.randrange(0, VFD_HEIGHT / blkheight)
+                if (nx, ny) in allocs:
+                    continue
+                if len(allocs) >= maxallocs:
+                    break
+                allocs.append((nx, ny))
+                self.vfd_surf.blit(self.saved_vfd_surf, (nx * blkwidth, ny * blkheight), area=(nx * blkwidth, ny * blkheight, blkwidth, blkheight))
+                break
+
+        print(amt, allocs)
     
     def render_out(self):
         # apply invert mask to the vfd_surf
