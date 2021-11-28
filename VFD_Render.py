@@ -141,36 +141,11 @@ class VFD(object):
         min_runlength = 15  # Runlength should be size of one move command + one bitmap header
         a = self.vfd_surfarray
 
-        t0 = time.time()
-
-        """
-        for y in range(DAMAGE_ROWS):
-            yp = y * DAMAGE_ROW_HEIGHT
-
-            for n in range(VFD_WIDTH):
-                new_byte  = 0x80 * (a[n][0+yp][0] != 0)
-                new_byte |= 0x40 * (a[n][1+yp][0] != 0)
-                new_byte |= 0x20 * (a[n][2+yp][0] != 0)
-                new_byte |= 0x10 * (a[n][3+yp][0] != 0)
-                new_byte |= 0x08 * (a[n][4+yp][0] != 0)
-                new_byte |= 0x04 * (a[n][5+yp][0] != 0)
-                new_byte |= 0x02 * (a[n][6+yp][0] != 0)
-                new_byte |= 0x01 * (a[n][7+yp][0] != 0)
-                self.new_bytes[y][n] = new_byte
-
-            #print("calc:", self.new_bytes[y])
-        """
-
         packed = numpy.packbits(a, axis=1)
         
         for y in range(DAMAGE_ROWS):
             self.new_bytes[y] = packed[:, y, 0]
-        
-        t1 = time.time()
-        print("subprocess: %d" % ((t1 - t0) * 1000))
 
-        #print("nby:", self.new_bytes)
-        
         # For each damage row, try to find a long contiguous string of disagreeing bytes, indicating
         # a section is damaged.
         
