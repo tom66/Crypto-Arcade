@@ -84,6 +84,18 @@ def nosign_fmt_dec(prefix, suffix, val):
         return prefix + locale.format_string("%.2f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
     elif abs(val) < 1000000000:
         return prefix + locale.format_string("%.1f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
+    elif abs(val) < 10000000000:
+        return prefix + locale.format_string("%.3f", val / 1000000000, grouping=True, monetary=False) + "B" + suffix
+    elif abs(val) < 100000000000:
+        return prefix + locale.format_string("%.2f", val / 1000000000, grouping=True, monetary=False) + "B" + suffix
+    elif abs(val) < 1000000000000:
+        return prefix + locale.format_string("%.1f", val / 1000000000, grouping=True, monetary=False) + "B" + suffix
+    elif abs(val) < 10000000000000:
+        return prefix + locale.format_string("%.3f", val / 1000000000000, grouping=True, monetary=False) + "T" + suffix
+    elif abs(val) < 100000000000000:
+        return prefix + locale.format_string("%.2f", val / 1000000000000, grouping=True, monetary=False) + "T" + suffix
+    elif abs(val) < 1000000000000000:
+        return prefix + locale.format_string("%.1f", val / 1000000000000, grouping=True, monetary=False) + "T" + suffix
 
 class Main(object):
     vfd = None
