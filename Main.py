@@ -17,8 +17,7 @@ COINS = [
     ('Solana',      'solana',       'SOL'),
     ('Chia',        'chia',         'XCH'),
     ('Litecoin',    'litecoin',     'LTC'),
-    ('Cardano',     'cardano',      'ADA'),
-    ('BitTorrent',  'bittorrent',   'BTT')
+    ('Cardano',     'cardano',      'ADA')
 ]
 
 def money_fmt_nodec(prefix, suffix, val):
@@ -43,14 +42,48 @@ def usd_fmt_nodec(val):
         return "$" + locale.format_string("%.1f", val / 1000000, grouping=True, monetary=False) + "M"
 
 def sign_fmt_dec(prefix, suffix, val):
-    if abs(val) < 9.99:
+    if abs(val) < 10:
         # 2 D.P.
         return prefix + locale.format_string("%+.2f", val, grouping=True, monetary=False) + suffix
-    elif abs(val) < 99.9:
+    elif abs(val) < 100:
         # 1 D.P.
         return prefix + locale.format_string("%+.1f", val, grouping=True, monetary=False) + suffix
-    else:
+    elif abs(val) < 1000:
         return prefix + locale.format_string("%+.0f", val, grouping=True, monetary=False) + suffix
+    elif abs(val) < 10000:
+        return prefix + locale.format_string("%+.2f", val / 1000, grouping=True, monetary=False) + "k" + suffix
+    elif abs(val) < 100000:
+        return prefix + locale.format_string("%+.1f", val / 1000, grouping=True, monetary=False) + "k" + suffix
+    elif abs(val) < 1000000:
+        return prefix + locale.format_string("%+.0f", val / 1000, grouping=True, monetary=False) + "k" + suffix
+    elif abs(val) < 10000000:
+        return prefix + locale.format_string("%+.2f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
+    elif abs(val) < 100000000:
+        return prefix + locale.format_string("%+.1f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
+    elif abs(val) < 1000000000:
+        return prefix + locale.format_string("%+.0f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
+
+def nosign_fmt_dec(prefix, suffix, val):
+    if abs(val) < 10:
+        # 2 D.P.
+        return prefix + locale.format_string("%.3f", val, grouping=True, monetary=False) + suffix
+    elif abs(val) < 100:
+        # 1 D.P.
+        return prefix + locale.format_string("%.2f", val, grouping=True, monetary=False) + suffix
+    elif abs(val) < 1000:
+        return prefix + locale.format_string("%.1f", val, grouping=True, monetary=False) + suffix
+    elif abs(val) < 10000:
+        return prefix + locale.format_string("%.3f", val / 1000, grouping=True, monetary=False) + "k" + suffix
+    elif abs(val) < 100000:
+        return prefix + locale.format_string("%.2f", val / 1000, grouping=True, monetary=False) + "k" + suffix
+    elif abs(val) < 1000000:
+        return prefix + locale.format_string("%.1f", val / 1000, grouping=True, monetary=False) + "k" + suffix
+    elif abs(val) < 10000000:
+        return prefix + locale.format_string("%.3f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
+    elif abs(val) < 100000000:
+        return prefix + locale.format_string("%.2f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
+    elif abs(val) < 1000000000:
+        return prefix + locale.format_string("%.1f", val / 1000000, grouping=True, monetary=False) + "M" + suffix
 
 class Main(object):
     vfd = None
@@ -179,6 +212,9 @@ class Main(object):
         self.vfd.circle_inverse(x, 8, f + 7, 7)
         self.vfd.circle_inverse(x, 8, f + 14, 7)
 
+    def render_invert_slices(self, x, f):
+        
+
     def check_data_ready(self):
         c_data = self.cf.get_coin(self.current_coin)
 
@@ -197,11 +233,21 @@ class Main(object):
         else:
             self.vfd.text(self.small_font, 0, 0, c_data._fname)
 
-        # Stages: "24hr", "USD", (actual change)
-        if int(self.f % 600) < 50:
-            self.vfd.text(self.small_font, 0, 9, "24hr$")
-        else:
+        # Show alternating text
+        f_sub = int(self.f % 600)
+        
+        if f_sub < 50:
+            self.vfd.text(self.small_font, 0, 9, "24h")
+        elif f_sub < 100:
+            self.vfd.text(self.small_font, 0, 9, "chg $")
+        elif f_sub < 150:
             self.vfd.text(self.small_font, 0, 9, sign_fmt_dec("", "%", c_data.priceUSDChange24Hr))
+        elif f_sub < 350:
+            self.vfd.text(self.small_font, 0, 9, "24h")
+        elif f_sub < 400:
+            self.vfd.text(self.small_font, 0, 9, "Vol $")
+        elif f_sub < 450:
+            self.vfd.text(self.small_font, 0, 9, nosign_fmt_dec("", "", c_data.volumeUSD))
         
         self.vfd.text_right(self.big_font, 0, -4, usd_fmt_nodec(c_data.lastPriceUSD))
         #self.vfd.text_right(self.big_font, 0, -4, usd_fmt_nodec(self.priceTest))
