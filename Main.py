@@ -213,7 +213,7 @@ class Main(object):
         self.vfd.circle_inverse(x, 8, f + 14, 7)
 
     def render_invert_slices(self, x, f):
-        
+        pass
 
     def check_data_ready(self):
         c_data = self.cf.get_coin(self.current_coin)
@@ -264,8 +264,7 @@ class Main(object):
                 self.render_invert_concentric_circles(120, self.f - 200)
         elif self.effect == 1:
             if 200 < self.f < 400:
-                self.render_invert_concentric_circles(-10, self.f - 200)
-        
+                self.render_invert_slices(-10, self.f - 200)
 
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
