@@ -239,13 +239,13 @@ class Main(object):
         if f_sub < 50:
             self.vfd.text(self.small_font, 0, 9, "24h")
         elif f_sub < 100:
-            self.vfd.text(self.small_font, 0, 9, "chg $")
+            self.vfd.text(self.small_font, 0, 9, "Chg$")
         elif f_sub < 150:
             self.vfd.text(self.small_font, 0, 9, sign_fmt_dec("", "%", c_data.priceUSDChange24Hr))
         elif f_sub < 350:
             self.vfd.text(self.small_font, 0, 9, "24h")
         elif f_sub < 400:
-            self.vfd.text(self.small_font, 0, 9, "Vol $")
+            self.vfd.text(self.small_font, 0, 9, "Vol$")
         elif f_sub < 450:
             self.vfd.text(self.small_font, 0, 9, nosign_fmt_dec("", "", c_data.volumeUSD))
         
