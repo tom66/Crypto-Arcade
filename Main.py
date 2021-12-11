@@ -248,7 +248,7 @@ class Main(object):
 
         # Show alternating text
         f_sub = int(self.f % 650)
-        print("vusd", c_data.volumeUSD)
+        #print("vusd", c_data.volumeUSD)
         
         if f_sub < 75:
             self.vfd.text(self.small_font, 0, 9, "24h")
@@ -285,7 +285,7 @@ class Main(object):
             if self.check_data_ready():
                 self.render_a_coin()
 
-            if (self.f % 1200) > 1150:
+            if (self.f % 1300) > 1200:
                 self.f = 0
                 self.vfd.save_surface()
                 self.next_coin()

@@ -225,7 +225,7 @@ class VFD(object):
         x, y = int(x), int(y)
         surf = font.render(str_, False, col)
         pos = (x, y)
-        print(surf, "blit", str_, x, y, col)
+        #print(surf, "blit", str_, x, y, col)
         self.vfd_surf.blit(surf, dest=(x, y))
 
     def text_right(self, font, x, y, str_, col=COL_WHITE):
