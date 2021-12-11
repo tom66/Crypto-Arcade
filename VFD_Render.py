@@ -434,7 +434,7 @@ class VFD(object):
             if AM_A_PI:
                 self.sw_state = self.scan_gpio()
                 if self.sw_state != EV_NONE:
-                    print("Event %04x (%d)", self.sw_state, self.sw_state)
+                    print("Event %04x (%d)" % (self.sw_state, self.sw_state))
 
         # clear the surfaces, back up old surface for diff
         self.last_vfd_surf.blit(self.vfd_surf, (0, 0))
