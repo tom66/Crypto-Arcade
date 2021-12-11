@@ -293,12 +293,13 @@ class Main(object):
         if self.bri_state != 0:
             self.vfd_bright += self.bri_state
             self.vfd_bright = VFD_Render.clamp(self.vfd_bright, 0, 7)
+            self.bri_state = 0
         
         # Draw 'N' filled or unfilled boxes of height stepping up 1pix every time
         for n in range(8):
-            self.vfd.rect(4 + (10 * n), 12 - n, 14 + (10 * n), n, 0, VFD_Render.COL_WHITE)
+            self.vfd.rect(4 + (10 * n), 12 - n, 14 + (10 * n), 5, 1, VFD_Render.COL_WHITE)
         
-        self.vfd.text_right(self.big_font, 0, -4, "%d" % self.vfd_bright)
+        self.vfd.text_right(self.big_font, 0, -4, "%d" % (1 + self.vfd_bright))
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
