@@ -1,6 +1,6 @@
 import Crypto_API
 import VFD_Render
-import pygame, time, locale, random
+import pygame, time, locale, random, sys
 
 RENDER_TO_WINDOW = True
 
@@ -337,6 +337,7 @@ class Main(object):
             print("tick", self.real_fps, self.f)
             
         self.real_fps = 1.0 / self.clk.tick(30)
+        return True
 
 if __name__ == "__main__":
     m = Main()
