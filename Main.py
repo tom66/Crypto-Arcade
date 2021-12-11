@@ -323,7 +323,7 @@ class Main(object):
     def run(self):
         self.render_frame()
         
-        if not self.vfd.render_out():
+        if self.vfd.render_out() == False:
             self.cf.kill()
             return
         

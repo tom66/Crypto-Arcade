@@ -13,7 +13,6 @@ COL_BLACK = (0, 0, 0)
 
 ENABLE_DAMAGE_DEBUG = True
 
-EV_NONE             = 0
 EV_SW_X_ACTIVATE    = 1
 EV_SW_Y_ACTIVATE    = 2
 EV_SW_A_ACTIVATE    = 4
@@ -26,6 +25,7 @@ EV_SW_X_RELEASE     = 256
 EV_SW_Y_RELEASE     = 512
 EV_SW_A_RELEASE     = 1024
 EV_SW_B_RELEASE     = 2048
+EV_NONE             = 65536
 
 try:
     import RPi.GPIO as GPIO
