@@ -292,7 +292,7 @@ class Main(object):
     def render_brightness(self):
         if self.bri_state != 0:
             self.vfd_bright += self.bri_state
-            self.vfd_bright = VFD.clamp(self.vfd_bright, 0, 7)
+            self.vfd_bright = VFD_Render.clamp(self.vfd_bright, 0, 7)
         
         # Draw 'N' filled or unfilled boxes of height stepping up 1pix every time
         for n in range(8):
@@ -338,19 +338,19 @@ class Main(object):
         #  - Press X:  Change brightness up
         #  - Press Y:  Change brightness down
         #  - Hold Y:   Prompt to shut down
-        if ev & VFD.EV_SW_A_RELEASE:
+        if ev & VFD_Render.EV_SW_A_RELEASE:
             self.animate_next_coin_start()
             return
         
-        if ev & VFD.EV_SW_B_RELEASE:
+        if ev & VFD_Render.EV_SW_B_RELEASE:
             pass # Doesn't do anything yet...
         
-        if ev & VFD.EV_SW_X_RELEASE:
+        if ev & VFD_Render.EV_SW_X_RELEASE:
             self.f = 0
             self.state = ST_BRIGHTNESS
             self.bri_state = +1
         
-        if ev & VFD.EV_SW_Y_RELEASE:
+        if ev & VFD_Render.EV_SW_Y_RELEASE:
             self.f = 0
             self.state = ST_BRIGHTNESS
             self.bri_state = -1
@@ -374,7 +374,7 @@ class Main(object):
             self.cf.kill()
             return False
         else:
-            if ev != VFD.EV_NONE:
+            if ev != VFD_Render.EV_NONE:
                 self.handle_event(ev)
         
         self.f += 1
