@@ -325,7 +325,7 @@ class Main(object):
         
         if self.vfd.render_out() == False:
             self.cf.kill()
-            return
+            return False
         
         self.f += 1
         self.f %= 1000000
@@ -342,7 +342,8 @@ if __name__ == "__main__":
     m = Main()
 
     while True:
-        m.run()
+        if not m.run():
+            break
 
     print("Quitting")
     sys.exit()
