@@ -231,6 +231,7 @@ class Main(object):
         c_data = self.cf.get_coin(self.current_coin)
 
         if (time.time() - c_data.updateTime) > 240:
+            print("Data not ready!")
             self.vfd.fill(VFD_Render.COL_WHITE)
             self.vfd.text(self.small_font, 600 - (self.f % 400), 4, "Waiting for data (%s)" % self.current_coin, col=VFD_Render.COL_BLACK)
             return False
