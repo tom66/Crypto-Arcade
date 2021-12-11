@@ -296,7 +296,7 @@ class Main(object):
         
         # Draw 'N' filled or unfilled boxes of height stepping up 1pix every time
         for n in range(8):
-            self.vfd.rect(4 + (10 * n), 12 - n, 14 + (10 * n), n, 0, COL_WHITE)
+            self.vfd.rect(4 + (10 * n), 12 - n, 14 + (10 * n), n, 0, VFD_Render.COL_WHITE)
         
         self.vfd.text_right(self.big_font, 0, -4, "%d" % self.vfd_bright)
     
