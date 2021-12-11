@@ -239,7 +239,7 @@ class VFD(object):
         pygame.draw.line(self.vfd_surf, col, (x0, y0), (x1, y1), w)
     
     def rect(self, x0, y0, x1, y1, w, col=COL_WHITE):
-        pygame.draw.rect(self.vfd_surf, col, (x0, y0, x1 - x0, y1 - y0), width=w)
+        pygame.draw.rect(self.vfd_surf, col, (x0, y0, x1 - x0, y1 - y0), w)
     
     def circle_inverse(self, x0, y0, r, w, col=COL_WHITE):
         x0, y0, r, w = int(x0), int(y0), int(r), int(w)
