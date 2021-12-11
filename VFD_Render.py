@@ -111,10 +111,11 @@ class VFD(object):
             return None
         
         # check the new state and compare it to the old one
-        raw_x = GPIO.input(26)
-        raw_y = GPIO.input(19)
-        raw_a = GPIO.input(13)
-        raw_b = GPIO.input(6)
+        # states are inverted
+        raw_x = 1 - GPIO.input(19)
+        raw_y = 1 - GPIO.input(26)
+        raw_a = 1 - GPIO.input(6)
+        raw_b = 1 - GPIO.input(13)
         
         print("x/y/a/b", raw_x, raw_y, raw_a, raw_b)
     
