@@ -27,6 +27,8 @@ EV_SW_A_RELEASE     = 1024
 EV_SW_B_RELEASE     = 2048
 EV_NONE             = 65536
 
+HOLD_THRESH         = 10
+
 try:
     import RPi.GPIO as GPIO
     import serial
@@ -53,6 +55,11 @@ class VFD(object):
     sw_y_last = 0
     sw_a_last = 0
     sw_b_last = 0
+    
+    sw_x_ctr = 0
+    sw_y_ctr = 0
+    sw_a_ctr = 0
+    sw_b_ctr = 0
     
     sw_state = EV_NONE
     
@@ -108,7 +115,9 @@ class VFD(object):
     
     def scan_gpio(self):
         if not AM_A_PI:
-            return None
+            return EV_NONE
+        
+        ev = 0
         
         # check the new state and compare it to the old one
         # states are inverted
@@ -117,7 +126,63 @@ class VFD(object):
         raw_a = 1 - GPIO.input(6)
         raw_b = 1 - GPIO.input(13)
         
-        print("x/y/a/b", raw_x, raw_y, raw_a, raw_b)
+        if x and not self.sw_x_last:
+            ev |= EV_SW_X_ACTIVATE
+        if y and not self.sw_y_last:
+            ev |= EV_SW_Y_ACTIVATE
+        if a and not self.sw_a_last:
+            ev |= EV_SW_A_ACTIVATE
+        if b and not self.sw_b_last:
+            ev |= EV_SW_B_ACTIVATE
+        
+        if not x and self.sw_x_last:
+            ev |= EV_SW_X_RELEASE
+        if not y and self.sw_y_last:
+            ev |= EV_SW_Y_RELEASE
+        if not a and self.sw_a_last:
+            ev |= EV_SW_A_RELEASE
+        if not b and self.sw_b_last:
+            ev |= EV_SW_B_RELEASE
+        
+        if x:
+            self.sw_x_ctr += 1
+            if self.sw_x_ctr == HOLD_THRESH:
+                ev |= EV_SW_X_HOLD
+        else:
+            self.sw_x_ctr = 0
+            
+        if y:
+            self.sw_y_ctr += 1
+            if self.sw_y_ctr == HOLD_THRESH:
+                ev |= EV_SW_Y_HOLD
+        else:
+            self.sw_y_ctr = 0
+            
+        if a:
+            self.sw_a_ctr += 1
+            if self.sw_a_ctr == HOLD_THRESH:
+                ev |= EV_SW_A_HOLD
+        else:
+            self.sw_a_ctr = 0
+            
+        if b:
+            self.sw_b_ctr += 1
+            if self.sw_b_ctr == HOLD_THRESH:
+                ev |= EV_SW_B_HOLD
+        else:
+            self.sw_b_ctr = 0
+        
+        self.sw_x_last = raw_x
+        self.sw_y_last = raw_y
+        self.sw_a_last = raw_a
+        self.sw_b_last = raw_b
+        
+        #print("x/y/a/b", raw_x, raw_y, raw_a, raw_b)
+        
+        if ev == 0:
+            ev |= EV_NONE
+        
+        return ev
     
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
@@ -368,6 +433,8 @@ class VFD(object):
             # scan for GPIO events every frame
             if AM_A_PI:
                 self.sw_state = self.scan_gpio()
+                if self.sw_state != EV_NONE:
+                    print("Event %04x (%d)", self.sw_state, self.sw_state)
 
         # clear the surfaces, back up old surface for diff
         self.last_vfd_surf.blit(self.vfd_surf, (0, 0))
