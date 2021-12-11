@@ -302,9 +302,13 @@ class Main(object):
             else:
                 lw = 1
             
-            self.vfd.rect(4 + (8 * n), 10 - n, 7, n + 4, lw, VFD_Render.COL_WHITE)
+            self.vfd.rect(20 + (8 * n), 10 - n, 7, n + 4, lw, VFD_Render.COL_WHITE)
         
         self.vfd.text_right(self.big_font, 0, -4, "%d" % (1 + self.vfd_bright))
+        
+        # Draw a 'sun' for the brightness
+        r = 6
+        self.vfd.circle(8, 8, r, 1, VFD_Render.COL_WHITE)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
@@ -332,7 +336,7 @@ class Main(object):
         elif self.state == ST_BRIGHTNESS:
             self.render_brightness()
             
-            if self.f > 200:
+            if self.f > 100:
                 self.state = ST_RENDER_A_COIN
     
     def handle_event(self, ev):
