@@ -121,10 +121,10 @@ class VFD(object):
         
         # check the new state and compare it to the old one
         # states are inverted
-        raw_x = 1 - GPIO.input(19)
-        raw_y = 1 - GPIO.input(26)
-        raw_a = 1 - GPIO.input(6)
-        raw_b = 1 - GPIO.input(13)
+        x = 1 - GPIO.input(19)
+        y = 1 - GPIO.input(26)
+        a = 1 - GPIO.input(6)
+        b = 1 - GPIO.input(13)
         
         if x and not self.sw_x_last:
             ev |= EV_SW_X_ACTIVATE
@@ -172,12 +172,12 @@ class VFD(object):
         else:
             self.sw_b_ctr = 0
         
-        self.sw_x_last = raw_x
-        self.sw_y_last = raw_y
-        self.sw_a_last = raw_a
-        self.sw_b_last = raw_b
+        self.sw_x_last = x
+        self.sw_y_last = y
+        self.sw_a_last = a
+        self.sw_b_last = b
         
-        #print("x/y/a/b", raw_x, raw_y, raw_a, raw_b)
+        #print("x/y/a/b", x, y, a, b)
         
         if ev == 0:
             ev |= EV_NONE
