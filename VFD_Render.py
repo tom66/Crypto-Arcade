@@ -433,15 +433,12 @@ class VFD(object):
             # scan for GPIO events every frame
             if AM_A_PI:
                 self.sw_state = self.scan_gpio()
-                if self.sw_state != EV_NONE:
-                    print("Event %04x (%d)" % (self.sw_state, self.sw_state))
 
         # clear the surfaces, back up old surface for diff
         self.last_vfd_surf.blit(self.vfd_surf, (0, 0))
         self.vfd_surf.fill((0, 0, 0))
         self.inv_surf.fill((0, 0, 0))
         self.damage_surf.fill((0, 0, 0, 0))
-        
         self.frame += 1
 
         return self.sw_state

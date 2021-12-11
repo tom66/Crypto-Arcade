@@ -323,9 +323,13 @@ class Main(object):
     def run(self):
         self.render_frame()
         
-        if self.vfd.render_out() == False:
+        ev = self.vfd.render_out()
+        
+        if ev == False:
             self.cf.kill()
             return False
+        else:
+            print("Event %04x (%d)" % (ev, ev))
         
         self.f += 1
         self.f %= 1000000
