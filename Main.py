@@ -297,7 +297,7 @@ class Main(object):
         
         # Draw 'N' filled or unfilled boxes of height stepping up 1pix every time
         for n in range(8):
-            if n > self.vfd_bright:
+            if n <= self.vfd_bright:
                 lw = 0
             else:
                 lw = 1
