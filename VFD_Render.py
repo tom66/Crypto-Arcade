@@ -13,6 +13,20 @@ COL_BLACK = (0, 0, 0)
 
 ENABLE_DAMAGE_DEBUG = True
 
+EV_NONE             = 0
+EV_SW_X_ACTIVATE    = 1
+EV_SW_Y_ACTIVATE    = 2
+EV_SW_A_ACTIVATE    = 4
+EV_SW_B_ACTIVATE    = 8
+EV_SW_X_HOLD        = 16
+EV_SW_Y_HOLD        = 32
+EV_SW_A_HOLD        = 64
+EV_SW_B_HOLD        = 128
+EV_SW_X_RELEASE     = 256
+EV_SW_Y_RELEASE     = 512
+EV_SW_A_RELEASE     = 1024
+EV_SW_B_RELEASE     = 2048
+
 try:
     import RPi.GPIO as GPIO
     import serial
@@ -34,6 +48,13 @@ class VFD(object):
     frame = 0
     old_bytes = []
     new_bytes = []
+    
+    sw_x_last = 0
+    sw_y_last = 0
+    sw_a_last = 0
+    sw_b_last = 0
+    
+    sw_state = EV_NONE
     
     def __init__(self, render_window):
         if render_window:
@@ -63,6 +84,10 @@ class VFD(object):
             print("I'm running on a Pi.  I have GPIO control.")
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(23, GPIO.IN)
+            GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+            GPIO.setup(19, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+            GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+            GPIO.setup(6,  GPIO.IN, pull_up_down=GPIO.PUD_UP) 
             self.port = serial.Serial(port="/dev/ttyS0", baudrate=115200)
         else:
             print("I'm not running on a Pi.")
@@ -80,7 +105,19 @@ class VFD(object):
         for n in range(DAMAGE_ROWS):
             self.old_bytes.append([0x00] * VFD_WIDTH)
             self.new_bytes.append([0x00] * VFD_WIDTH)
-
+    
+    def scan_gpio(self):
+        if not AM_A_PI:
+            return None
+        
+        # check the new state and compare it to the old one
+        raw_x = GPIO.input(26)
+        raw_y = GPIO.input(19)
+        raw_a = GPIO.input(13)
+        raw_b = GPIO.input(6)
+        
+        print("x/y/a/b", raw_x, raw_y, raw_a, raw_b)
+    
     def _wait_sbusy(self):
         # wait for GPIO to be free.  Modestly-inefficiently spin the CPU on this
         iters = 0
@@ -286,6 +323,8 @@ class VFD(object):
         t0 = time.time()
         rows = self.calculate_damage_list()
         t1 = time.time()
+        
+        self.sw_state = EV_NONE
 
         #print((t1 - t0) * 1000)
         
@@ -314,7 +353,7 @@ class VFD(object):
             pygame.transform.scale(self.temp_surf, self.window.get_size(), self.window)
             pygame.display.flip()
 
-            # check if any events come through
+            # check if any PyGame events come through
             ev = pygame.event.poll()
             #print(ev)
             
@@ -323,6 +362,10 @@ class VFD(object):
                 pygame.display.quit()
                 sys.exit()
                 return False
+            
+            # scan for GPIO events every frame
+            if AM_A_PI:
+                self.sw_state = self.scan_gpio()
 
         # clear the surfaces, back up old surface for diff
         self.last_vfd_surf.blit(self.vfd_surf, (0, 0))
@@ -332,4 +375,4 @@ class VFD(object):
         
         self.frame += 1
 
-        return True
+        return self.sw_state
