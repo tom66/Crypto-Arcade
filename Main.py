@@ -308,7 +308,7 @@ class Main(object):
         
         # Draw a 'sun' for the brightness
         r = 6
-        self.vfd.circle(8, 8, r, 1, VFD_Render.COL_WHITE)
+        self.vfd.circle(8, 8, r, 0, VFD_Render.COL_WHITE)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
