@@ -6,6 +6,7 @@ RENDER_TO_WINDOW = True
 
 ST_RENDER_A_COIN = 1
 ST_TRANSITION = 2
+ST_BRIGHTNESS = 3
 
 # Add coins you want to see here.
 COINS = [
@@ -107,8 +108,9 @@ class Main(object):
     cd = None
     arrow = 0
     transition = 0
-    priceTest = 8.00
     effect = 0
+    bri_state = 0
+    vfd_bright = 7
 
     def __init__(self):
         self.vfd = VFD_Render.VFD(RENDER_TO_WINDOW)
@@ -264,7 +266,6 @@ class Main(object):
             self.vfd.text(self.small_font, 0, 9, nosign_fmt_dec("", "", c_data.volumeUSD))
         
         self.vfd.text_right(self.big_font, 0, -4, usd_fmt_nodec(c_data.lastPriceUSD))
-        #self.vfd.text_right(self.big_font, 0, -4, usd_fmt_nodec(self.priceTest))
         
         if c_data.priceUSDChange24Hr > 0:
             self.arrow_up[self.arrow](45, self.f)
@@ -280,18 +281,32 @@ class Main(object):
             if 200 < self.f < 400:
                 self.render_invert_slices(-10, self.f - 200)
 
+    def animate_next_coin_start(self):
+        self.f = 0
+        self.vfd.save_surface()
+        self.next_coin()
+        self.state = ST_TRANSITION
+        self.transition = random.choice([0, 1])
+        self.effect = random.choice([0, 1, 2])
+    
+    def render_brightness(self):
+        if self.bri_state != 0:
+            self.vfd_bright += self.bri_state
+            self.vfd_bright = VFD.clamp(self.vfd_bright, 0, 7)
+        
+        # Draw 'N' filled or unfilled boxes of height stepping up 1pix every time
+        for n in range(8):
+            self.vfd.rect(4 + (10 * n), 12 - n, 14 + (10 * n), n, 0, COL_WHITE)
+        
+        self.vfd.text_right(self.big_font, 0, -4, "%d" % self.vfd_bright)
+    
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
             if self.check_data_ready():
                 self.render_a_coin()
 
             if (self.f % 1300) > 1200:
-                self.f = 0
-                self.vfd.save_surface()
-                self.next_coin()
-                self.state = ST_TRANSITION
-                self.transition = random.choice([0, 1])
-                self.effect = random.choice([0, 1, 2])
+                self.animate_next_coin_start()
         elif self.state == ST_TRANSITION:
             if self.check_data_ready():
                 self.render_a_coin()
@@ -308,7 +323,38 @@ class Main(object):
                     self.f = 0
             else:
                 self.state = ST_RENDER_A_COIN
-
+        elif self.state == ST_BRIGHTNESS:
+            self.render_brightness()
+            
+            if self.f > 200:
+                self.state = ST_RENDER_A_COIN
+    
+    def handle_event(self, ev):
+        print("Event %04x (%d)" % (ev, ev))
+        
+        # Actions:
+        #  - Press A:  Next coin
+        #  - Press B:  Change display
+        #  - Press X:  Change brightness up
+        #  - Press Y:  Change brightness down
+        #  - Hold Y:   Prompt to shut down
+        if ev & VFD.EV_SW_A_RELEASE:
+            self.animate_next_coin_start()
+            return
+        
+        if ev & VFD.EV_SW_B_RELEASE:
+            pass # Doesn't do anything yet...
+        
+        if ev & VFD.EV_SW_X_RELEASE:
+            self.f = 0
+            self.state = ST_BRIGHTNESS
+            self.bri_state = +1
+        
+        if ev & VFD.EV_SW_Y_RELEASE:
+            self.f = 0
+            self.state = ST_BRIGHTNESS
+            self.bri_state = -1
+    
     def next_coin(self):
         self.arrow = random.choice([0, 1, 2])
         
@@ -322,14 +368,14 @@ class Main(object):
 
     def run(self):
         self.render_frame()
-        
         ev = self.vfd.render_out()
         
         if ev == False:
             self.cf.kill()
             return False
         else:
-            print("Event %04x (%d)" % (ev, ev))
+            if ev != VFD.EV_NONE:
+                self.handle_event(ev)
         
         self.f += 1
         self.f %= 1000000
