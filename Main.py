@@ -252,20 +252,19 @@ class Main(object):
             self.vfd.text(self.small_font, 0, 0, c_data._fname)
 
         # Show alternating text
-        f_sub = int(self.f % 650)
-        #print("vusd", c_data.volumeUSD)
+        f_sub = int(self.f % 600)
         
-        if f_sub < 75:
+        if f_sub < 50:
             self.vfd.text(self.small_font, 0, 9, "24h")
-        elif f_sub < 150:
+        elif f_sub < 125:
             self.vfd.text(self.small_font, 0, 9, "Chg$")
-        elif f_sub < 300:
+        elif f_sub < 275:
             self.vfd.text(self.small_font, 0, 9, sign_fmt_dec("", "%", c_data.priceUSDChange24Hr))
-        elif f_sub < 450:
+        elif f_sub < 400:
             self.vfd.text(self.small_font, 0, 9, "24h")
-        elif f_sub < 525:
+        elif f_sub < 500:
             self.vfd.text(self.small_font, 0, 9, "Vol$")
-        elif f_sub < 600:
+        elif f_sub < 575:
             self.vfd.text(self.small_font, 0, 9, nosign_fmt_dec("", "", c_data.volumeUSD))
         
         self.vfd.text_right(self.big_font, 0, -4, usd_fmt_nodec(c_data.lastPriceUSD))
@@ -274,8 +273,6 @@ class Main(object):
             self.arrow_up[self.arrow](45, self.f)
         elif c_data.priceUSDChange24Hr < 0:
             self.arrow_down[self.arrow](45, self.f)
-            
-        #self.render_invert_concentric_circles(0, self.f % 200)
 
         if self.effect == 0:
             if 200 < self.f < 400:
