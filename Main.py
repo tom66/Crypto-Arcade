@@ -334,13 +334,13 @@ class Main(object):
         
         # Draw time.  Blink the dots on 0.5 sec intervals
         dots = (time.time() % 1.0) >= 0.5
-        self.vfd.text_right(self.big_font, 5, -4, "%02d" % dt.second)
-        self.vfd.text_right(self.big_font, 30, -4, "%02d" % dt.minute)
-        self.vfd.text_right(self.big_font, 55, -4, "%02d" % dt.hour)
+        self.vfd.text_right(self.big_font, 5, -3, "%02d" % dt.second)
+        self.vfd.text_right(self.big_font, 30, -3, "%02d" % dt.minute)
+        self.vfd.text_right(self.big_font, 55, -3, "%02d" % dt.hour)
         
         if dots:
-            self.vfd.text_right(self.big_font, 23, -6, ":")
-            self.vfd.text_right(self.big_font, 48, -6, ":")
+            self.vfd.text_right(self.big_font, 22, -5, ":")
+            self.vfd.text_right(self.big_font, 47, -5, ":")
         
         # Draw date.
         self.vfd.text(self.small_font, 0, 0, DAY_OF_WEEK[dt.weekday()])
