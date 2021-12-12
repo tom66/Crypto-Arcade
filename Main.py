@@ -318,7 +318,9 @@ class Main(object):
         self.vfd.line(cx,      cy - yc, cx,      cy + yc, 1, VFD_Render.COL_WHITE)
         self.vfd.circle_filled(cx, cy, r, VFD_Render.COL_BLACK)
         self.vfd.circle(cx, cy, r, VFD_Render.COL_WHITE)
+        self.vfd.circle(cx, cy, 5, VFD_Render.COL_WHITE)
         self.vfd.circle(cx, cy, r + 1, VFD_Render.COL_BLACK)
+        self.vfd.circle(cx, cy, r + 2, VFD_Render.COL_BLACK)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
