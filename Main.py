@@ -346,6 +346,10 @@ class Main(object):
         self.vfd.text(self.small_font, 0, 0, DAY_OF_WEEK[dt.weekday()])
         self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
+    def render_powerdown(self):
+        self.vfd.text(self.small_font, 40, 0, "Power off?")
+        self.vfd.text(self.small_font, 36, 7, "Press 'X'...")
+    
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
             if self.check_data_ready():
@@ -379,6 +383,11 @@ class Main(object):
         elif self.state == ST_CLOCK:
             self.render_clock()
             self.disp_state = ST_CLOCK
+        elif self.state == ST_POWERDOWN:
+            self.render_powerdown()
+    
+    def initiate_shutdown(self):
+        self.state = ST_POWERDOWN
     
     def handle_event(self, ev):
         print("Event %04x (%d)" % (ev, ev))
@@ -409,6 +418,9 @@ class Main(object):
             self.f = 0
             self.state = ST_BRIGHTNESS
             self.bri_state = -1
+        
+        if ev & VFD_Render.EV_SW_Y_HOLD:
+            self.initiate_shutdown()
     
     def next_coin(self):
         self.arrow = random.choice([0, 1, 2])
