@@ -312,15 +312,8 @@ class Main(object):
         xb = yb = 9
         
         self.vfd.circle(cx, cy, 5, VFD_Render.COL_WHITE)
-        
-        for tr in range(0, 360, 45):
-            t = math.radians(tr)
-            x0 = ((xa - cx) * math.cos(t)) - ((ya - cy) * math.cos(t)) + cx
-            y0 = ((xa - cx) * math.sin(t)) + ((ya - cy) * math.sin(t)) + cy
-            x1 = ((xb - cx) * math.cos(t)) - ((yb - cy) * math.cos(t)) + cx
-            y1 = ((xb - cx) * math.sin(t)) + ((yb - cy) * math.sin(t)) + cy
-            
-            self.vfd.line(x0, y0, x1, y1, 1, VFD_Render.COL_WHITE)
+        self.vfd.line(cx - xb, cy - yb, cx + xb, cy + yb, 1, VFD_Render.COL_WHITE)
+        self.vfd.line(cx + xb, cy - yb, cx - xb, cy + yb, 1, VFD_Render.COL_WHITE)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
