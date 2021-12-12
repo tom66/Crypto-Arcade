@@ -245,6 +245,10 @@ class VFD(object):
     def circle(self, x0, y0, r, col=COL_WHITE):
         x0, y0, r = int(x0), int(y0), int(r)
         pygame.gfxdraw.circle(self.vfd_surf, x0, y0, r, col)
+        
+    def circle_filled(self, x0, y0, r, col=COL_WHITE):
+        x0, y0, r = int(x0), int(y0), int(r)
+        pygame.gfxdraw.filled_circle(self.vfd_surf, x0, y0, r, col)
     
     def circle_inverse(self, x0, y0, r, w, col=COL_WHITE):
         x0, y0, r, w = int(x0), int(y0), int(r), int(w)
