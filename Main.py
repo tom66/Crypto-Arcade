@@ -354,7 +354,7 @@ class Main(object):
                 self.vfd.text(self.small_font, 0, 0, "To power off")
             
             self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
-        else:            
+        elif self.pd_state == 1:            
             self.vfd.text(self.small_font, 0, 4, "Powering off...")
     
     def render_frame(self):
