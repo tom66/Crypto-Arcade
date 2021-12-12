@@ -133,6 +133,9 @@ class Main(object):
         # Load fonts
         self.big_font = pygame.font.Font("BebasNeue-Regular.ttf", 19)
         self.small_font = pygame.font.Font("RosesareFF0000.ttf", 8)
+        
+        # Set default brightness (@FUTURE: Load config file!)
+        self.set_disp_bright(self.vfd_bright)
 
     def render_arrow_up_rotate(self, x, f):
         f %= 32
@@ -293,6 +296,7 @@ class Main(object):
         if self.bri_state != 0:
             self.vfd_bright += self.bri_state
             self.vfd_bright = VFD_Render.clamp(self.vfd_bright, 0, 7)
+            self.set_disp_bright(self.vfd_bright)
             self.bri_state = 0
         
         # Draw 'N' filled or unfilled boxes of height stepping up 1pix every time

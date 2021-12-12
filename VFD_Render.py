@@ -354,9 +354,17 @@ class VFD(object):
             for n in range(x0, x1):
                 data.append(self.new_bytes[r][n])
 
-        #print(data)
         self._send_command(command + data)
-
+    
+    def set_disp_bright(self, bri):
+        # bri 0-7, out of range values clipped
+        bri = clamp(bri, 0, 7)
+        
+        command = b"\x1F\x58"
+        command += struct.pack("b", bri)
+        
+        self._send_command(command)
+    
     def save_surface(self):
         # Save the current VFD surface so a transition/effect can be applied.
         self.saved_vfd_surf.blit(self.vfd_surf, (0, 0))
