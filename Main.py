@@ -334,6 +334,10 @@ class Main(object):
         self.vfd.text_right(self.big_font, 5, -4, "%02d" % dt.second)
         self.vfd.text_right(self.big_font, 30, -4, "%02d" % dt.minute)
         self.vfd.text_right(self.big_font, 55, -4, "%02d" % dt.hour)
+        
+        if dots:
+            self.vfd.text_right(self.big_font, 25, -8, ":")
+            self.vfd.text_right(self.big_font, 50, -8, ":")
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
