@@ -1,6 +1,6 @@
 import Crypto_API
 import VFD_Render
-import pygame, time, locale, random, sys
+import pygame, time, locale, random, sys, math
 
 RENDER_TO_WINDOW = True
 
@@ -302,10 +302,25 @@ class Main(object):
             else:
                 lw = 1
             
-            self.vfd.rect(20 + (8 * n), 10 - n, 7, n + 4, lw, VFD_Render.COL_WHITE)
+            self.vfd.rect(30 + (8 * n), 10 - n, 7, n + 4, lw, VFD_Render.COL_WHITE)
         
         self.vfd.text_right(self.big_font, 0, -4, "%d" % (1 + self.vfd_bright))
-        self.vfd.circle(12, 7, 5, VFD_Render.COL_WHITE)
+        
+        # Draw brightness symbol
+        cx, cy = 12, 7
+        xa = ya = 5
+        xb = yb = 9
+        
+        self.vfd.circle(cx, cy, 5, VFD_Render.COL_WHITE)
+        
+        for tr in range(0, 360, 45):
+            t = math.radians(tr)
+            x0 = ((xa - cx) * math.cos(t)) - ((ya - cy) * math.cos(t))
+            y0 = ((xa - cx) * math.sin(t)) + ((ya - cy) * math.sin(t))
+            x1 = ((xb - cx) * math.cos(t)) - ((yb - cy) * math.cos(t))
+            y1 = ((xb - cx) * math.sin(t)) + ((yb - cy) * math.sin(t))
+            
+            self.vfd.line(x0, y0, x1, y1, 1, VFD_Render.COL_WHITE)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
