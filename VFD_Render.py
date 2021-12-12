@@ -357,8 +357,8 @@ class VFD(object):
         self._send_command(command + data)
     
     def set_disp_bright(self, bri):
-        # bri 0-7, out of range values clipped
-        bri = clamp(bri, 0, 7)
+        # Input level 0-7, out of range values clipped.  Actual brightness levels are 1-8 for the VFD.
+        bri = clamp(bri, 0, 7) + 1
         
         command = b"\x1F\x58"
         command += struct.pack("b", bri)
