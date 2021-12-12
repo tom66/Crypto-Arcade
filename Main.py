@@ -1,6 +1,6 @@
 import Crypto_API
 import VFD_Render
-import pygame, time, locale, random, sys, math
+import pygame, time, locale, random, sys, math, datetime
 
 RENDER_TO_WINDOW = True
 
@@ -103,7 +103,8 @@ class Main(object):
     clk = None
     f = 0
     real_fps = 0
-    state = ST_RENDER_A_COIN
+    state = ST_CLOCK
+    disp_state = ST_RENDER_A_COIN
     current_coin = None
     cd = None
     arrow = 0
@@ -323,6 +324,20 @@ class Main(object):
         self.vfd.circle(cx, cy, r + 1, VFD_Render.COL_BLACK)
         self.vfd.circle(cx, cy, r + 2, VFD_Render.COL_BLACK)
     
+    def render_clock(self):
+        # Get the time
+        dt = datetime.datetime.now()
+        
+        # Blink the dots on 0.5 sec intervals
+        dots = (time.time() % 1.0) >= 0.5
+        if dots:
+            timefmt = "%02d:%02d:%02d"
+        else:
+            timefmt = "%02d %02d %02d"
+        
+        timefmt %= (dt.hour, dt.minute, dt.second)
+        self.vfd.text_right(self.big_font, 0, -4, timefmt)
+    
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
             if self.check_data_ready():
@@ -330,6 +345,8 @@ class Main(object):
 
             if (self.f % 1300) > 1200:
                 self.animate_next_coin_start()
+            
+            self.disp_state = ST_RENDER_A_COIN
         elif self.state == ST_TRANSITION:
             if self.check_data_ready():
                 self.render_a_coin()
@@ -350,7 +367,9 @@ class Main(object):
             self.render_brightness()
             
             if self.f > 100:
-                self.state = ST_RENDER_A_COIN
+                self.state = self.disp_state
+        elif self.state == ST_CLOCK:
+            self.render_clock()
     
     def handle_event(self, ev):
         print("Event %04x (%d)" % (ev, ev))
