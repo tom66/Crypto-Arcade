@@ -310,7 +310,7 @@ class Main(object):
         cx, cy = 11, 7
         xb = yb = 7
         xc = yc = 9
-        r = 5
+        r = 4
         
         self.vfd.line(cx - xb, cy - yb, cx + xb, cy + yb, 1, VFD_Render.COL_WHITE)
         self.vfd.line(cx + xb, cy - yb, cx - xb, cy + yb, 1, VFD_Render.COL_WHITE)
