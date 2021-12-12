@@ -348,9 +348,10 @@ class Main(object):
         self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
     def render_powerdown(self):
-        if (self.f / 25) % 1 == 0:
+        if (self.f / 10) % 1 == 0:
             self.vfd.text(self.small_font, 0, 0, "To power off")
-            self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
+        
+        self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
