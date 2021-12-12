@@ -309,13 +309,16 @@ class Main(object):
         # Draw brightness symbol
         cx, cy = 11, 7
         xb = yb = 7
+        xc = yc = 9
+        r = 5
         
         self.vfd.line(cx - xb, cy - yb, cx + xb, cy + yb, 1, VFD_Render.COL_WHITE)
         self.vfd.line(cx + xb, cy - yb, cx - xb, cy + yb, 1, VFD_Render.COL_WHITE)
-        self.vfd.line(cx + xb, cy,      cx - xb, cy,      1, VFD_Render.COL_WHITE)
-        self.vfd.line(cx,      cy - yb, cx,      cy + yb, 1, VFD_Render.COL_WHITE)
-        self.vfd.circle_filled(cx, cy, 5, VFD_Render.COL_BLACK)
-        self.vfd.circle(cx, cy, 5, VFD_Render.COL_WHITE)
+        self.vfd.line(cx + xc, cy,      cx - xc, cy,      1, VFD_Render.COL_WHITE)
+        self.vfd.line(cx,      cy - yc, cx,      cy + yc, 1, VFD_Render.COL_WHITE)
+        self.vfd.circle_filled(cx, cy, r, VFD_Render.COL_BLACK)
+        self.vfd.circle(cx, cy, r, VFD_Render.COL_WHITE)
+        self.vfd.circle(cx, cy, r + 1, VFD_Render.COL_BLACK)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
