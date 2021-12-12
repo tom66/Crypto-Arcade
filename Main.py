@@ -348,7 +348,7 @@ class Main(object):
         self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
     def render_powerdown(self):
-        if (self.f / 10) % 1 == 0:
+        if (self.f / 10) % 4 < 3:
             self.vfd.text(self.small_font, 0, 0, "To power off")
         
         self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
