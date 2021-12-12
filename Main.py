@@ -8,6 +8,7 @@ ST_RENDER_A_COIN = 1
 ST_TRANSITION = 2
 ST_BRIGHTNESS = 3
 ST_CLOCK = 4
+ST_POWERDOWN = 5
 
 # Add coins you want to see here.
 COINS = [
