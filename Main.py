@@ -348,8 +348,9 @@ class Main(object):
         self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
     def render_powerdown(self):
-        self.vfd.text(self.small_font, 40, 0, "Power off?")
-        self.vfd.text(self.small_font, 36, 7, "Press 'X'...")
+        if (self.f / 25) % 2 == 0:
+            self.vfd.text(self.small_font, 40, 0, "Power off?")
+            self.vfd.text(self.small_font, 44, 7, "Hold 'X'")
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
@@ -386,6 +387,9 @@ class Main(object):
             self.disp_state = ST_CLOCK
         elif self.state == ST_POWERDOWN:
             self.render_powerdown()
+            
+            if self.f > 500:
+                self.state = self.disp_state
     
     def initiate_shutdown(self):
         self.state = ST_POWERDOWN
