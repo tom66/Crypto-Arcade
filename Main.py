@@ -339,8 +339,8 @@ class Main(object):
         self.vfd.text_right(self.big_font, 55, -3, "%02d" % dt.hour)
         
         if dots:
-            self.vfd.text_right(self.big_font, 22, -5, ":")
-            self.vfd.text_right(self.big_font, 47, -5, ":")
+            self.vfd.text_right(self.big_font, 21, -5, ":")
+            self.vfd.text_right(self.big_font, 46, -5, ":")
         
         # Draw date.
         self.vfd.text(self.small_font, 0, 0, DAY_OF_WEEK[dt.weekday()])
