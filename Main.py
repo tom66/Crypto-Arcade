@@ -305,7 +305,7 @@ class Main(object):
             self.vfd.rect(20 + (8 * n), 10 - n, 7, n + 4, lw, VFD_Render.COL_WHITE)
         
         self.vfd.text_right(self.big_font, 0, -4, "%d" % (1 + self.vfd_bright))
-        self.vfd.circle(12, 8, 5, VFD_Render.COL_WHITE)
+        self.vfd.circle(12, 7, 5, VFD_Render.COL_WHITE)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
