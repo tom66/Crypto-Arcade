@@ -331,13 +331,9 @@ class Main(object):
         
         # Blink the dots on 0.5 sec intervals
         dots = (time.time() % 1.0) >= 0.5
-        if dots:
-            timefmt = "%02d:%02d:%02d"
-        else:
-            timefmt = "%02d %02d %02d"
-        
-        timefmt %= (dt.hour, dt.minute, dt.second)
-        self.vfd.text_right(self.big_font, 0, -4, timefmt)
+        self.vfd.text_right(self.big_font, 0, -4, "%02d" % dt.second)
+        self.vfd.text_right(self.big_font, -20, -4, "%02d" % dt.minute)
+        self.vfd.text_right(self.big_font, -40, -4, "%02d" % dt.hour)
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
