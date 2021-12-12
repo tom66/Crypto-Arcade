@@ -309,7 +309,7 @@ class Main(object):
         # Draw brightness symbol
         cx, cy = 11, 7
         xb = yb = 6
-        xc = yc = 8
+        xc = yc = 7
         r = 3
         
         self.vfd.line(cx - xb, cy - yb, cx + xb, cy + yb, 1, VFD_Render.COL_WHITE)
