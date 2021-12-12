@@ -307,9 +307,8 @@ class Main(object):
         self.vfd.text_right(self.big_font, 0, -4, "%d" % (1 + self.vfd_bright))
         
         # Draw brightness symbol
-        cx, cy = 12, 7
-        xa = ya = 5
-        xb = yb = 9
+        cx, cy = 11, 8
+        xb = yb = 6
         
         self.vfd.circle(cx, cy, 5, VFD_Render.COL_WHITE)
         self.vfd.line(cx - xb, cy - yb, cx + xb, cy + yb, 1, VFD_Render.COL_WHITE)
