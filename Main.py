@@ -22,6 +22,9 @@ COINS = [
     ('Cardano',     'cardano',      'ADA')
 ]
 
+# Day of week names.  Why would you change these?
+DAY_OF_WEEK = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']
+
 def money_fmt_nodec(prefix, suffix, val):
     return prefix + locale.format_string("%.0f", val, grouping=True, monetary=False) + suffix
 
@@ -329,7 +332,7 @@ class Main(object):
         # Get the time
         dt = datetime.datetime.now()
         
-        # Blink the dots on 0.5 sec intervals
+        # Draw time.  Blink the dots on 0.5 sec intervals
         dots = (time.time() % 1.0) >= 0.5
         self.vfd.text_right(self.big_font, 5, -4, "%02d" % dt.second)
         self.vfd.text_right(self.big_font, 30, -4, "%02d" % dt.minute)
@@ -338,6 +341,10 @@ class Main(object):
         if dots:
             self.vfd.text_right(self.big_font, 23, -6, ":")
             self.vfd.text_right(self.big_font, 48, -6, ":")
+        
+        # Draw date.
+        self.vfd.text(self.small_font, 0, 0, DAY_OF_WEEK[dt.weekday()])
+        self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
