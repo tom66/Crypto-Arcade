@@ -315,10 +315,10 @@ class Main(object):
         
         for tr in range(0, 360, 45):
             t = math.radians(tr)
-            x0 = ((xa - cx) * math.cos(t)) - ((ya - cy) * math.cos(t))
-            y0 = ((xa - cx) * math.sin(t)) + ((ya - cy) * math.sin(t))
-            x1 = ((xb - cx) * math.cos(t)) - ((yb - cy) * math.cos(t))
-            y1 = ((xb - cx) * math.sin(t)) + ((yb - cy) * math.sin(t))
+            x0 = ((xa - cx) * math.cos(t)) - ((ya - cy) * math.cos(t)) + cx
+            y0 = ((xa - cx) * math.sin(t)) + ((ya - cy) * math.sin(t)) + cy
+            x1 = ((xb - cx) * math.cos(t)) - ((yb - cy) * math.cos(t)) + cx
+            y1 = ((xb - cx) * math.sin(t)) + ((yb - cy) * math.sin(t)) + cy
             
             self.vfd.line(x0, y0, x1, y1, 1, VFD_Render.COL_WHITE)
     
