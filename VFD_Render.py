@@ -28,7 +28,7 @@ EV_SW_A_RELEASE     = 1024
 EV_SW_B_RELEASE     = 2048
 EV_NONE             = 65536
 
-HOLD_THRESH         = 10
+HOLD_THRESH         = 20
 
 try:
     import RPi.GPIO as GPIO

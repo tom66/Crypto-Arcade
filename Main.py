@@ -1,6 +1,6 @@
 import Crypto_API
 import VFD_Render
-import pygame, time, locale, random, sys, math, datetime
+import pygame, time, locale, random, sys, math, datetime, os
 
 RENDER_TO_WINDOW = True
 
@@ -117,6 +117,7 @@ class Main(object):
     effect = 0
     bri_state = 0
     vfd_bright = 7
+    pd_state = 0
 
     def __init__(self):
         self.vfd = VFD_Render.VFD(RENDER_TO_WINDOW)
@@ -348,10 +349,13 @@ class Main(object):
         self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
     def render_powerdown(self):
-        if (self.f / 10) % 4 < 3:
-            self.vfd.text(self.small_font, 0, 0, "To power off")
-        
-        self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
+        if self.pd_state == 0:
+            if (self.f / 10) % 4 < 3:
+                self.vfd.text(self.small_font, 0, 0, "To power off")
+            
+            self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
+        else:            
+            self.vfd.text(self.small_font, 0, 4, "Powering off...")
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
@@ -394,6 +398,7 @@ class Main(object):
     
     def initiate_shutdown(self):
         self.state = ST_POWERDOWN
+        self.pd_state = 0
     
     def handle_event(self, ev):
         print("Event %04x (%d)" % (ev, ev))
@@ -428,7 +433,12 @@ class Main(object):
                 self.bri_state = -1
         
         if ev & VFD_Render.EV_SW_Y_HOLD:
-            self.initiate_shutdown()
+            if self.pd_state == 0:
+                self.initiate_shutdown()
+                self.pd_state = 1
+            elif self.pd_state == 1:
+                print("Now shutting down...")
+                os.system("shutdown now")
     
     def next_coin(self):
         self.arrow = random.choice([0, 1, 2])
