@@ -272,7 +272,7 @@ class Main(object):
         elif f_sub < 575:
             self.vfd.text(self.small_font, 0, 9, nosign_fmt_dec("", "", c_data.volumeUSD))
         
-        self.vfd.text_right(self.big_font, 0, -4, usd_fmt_nodec(c_data.lastPriceUSD))
+        self.vfd.text_right(self.big_font, 0, -3, usd_fmt_nodec(c_data.lastPriceUSD))
         
         if c_data.priceUSDChange24Hr > 0:
             self.arrow_up[self.arrow](45, self.f)
@@ -310,7 +310,7 @@ class Main(object):
             
             self.vfd.rect(30 + (8 * n), 10 - n, 7, n + 4, lw, VFD_Render.COL_WHITE)
         
-        self.vfd.text_right(self.big_font, 0, -4, "%d" % (1 + self.vfd_bright))
+        self.vfd.text_right(self.big_font, 0, -3, "%d" % (1 + self.vfd_bright))
         
         # Draw brightness symbol
         cx, cy = 11, 7
@@ -378,6 +378,7 @@ class Main(object):
                 self.state = self.disp_state
         elif self.state == ST_CLOCK:
             self.render_clock()
+            self.disp_state = ST_CLOCK
     
     def handle_event(self, ev):
         print("Event %04x (%d)" % (ev, ev))
@@ -393,7 +394,11 @@ class Main(object):
             return
         
         if ev & VFD_Render.EV_SW_B_RELEASE:
-            pass # Doesn't do anything yet...
+            # If we're on Coin, switch to Clock
+            if self.state == ST_RENDER_A_COIN:
+                self.state = ST_CLOCK
+            elif self.state == ST_CLOCK:
+                self.state = ST_RENDER_A_COIN
         
         if ev & VFD_Render.EV_SW_X_RELEASE:
             self.f = 0
