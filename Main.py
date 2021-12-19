@@ -421,7 +421,7 @@ class Main(object):
         ev = self.date_event
         
         # Draw the characters in a wave
-        self.vfd.text_wave(self.small_font, -150 + (self.f % 400), 1, ev[0], self.f * 0.02, 7)
+        self.vfd.text_wave(self.small_font, -100 + (self.f % 400), 1, ev[0], self.f * 0.02, 7)
         self.vfd.line(VFD_Render.VFD_WIDTH - 1, 0, VFD_Render.VFD_WIDTH - 1, VFD_Render.VFD_HEIGHT - 1, 1, VFD_Render.COL_BLACK)
         self.vfd.line(0, 0, 0, VFD_Render.VFD_HEIGHT - 1, 1, VFD_Render.COL_BLACK)
         
