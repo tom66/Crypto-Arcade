@@ -439,6 +439,9 @@ class Main(object):
             self.disp_state = ST_CLOCK
         elif self.state == ST_DATE_EVENT:
             self.render_date_event()
+            
+            if self.f > 400:
+                self.state = self.disp_state
         elif self.state == ST_POWERDOWN:
             self.render_powerdown()
             
