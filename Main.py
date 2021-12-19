@@ -564,13 +564,12 @@ class Main(object):
             
         #self.real_fps = 1.0 / self.clk.tick(30)
         td = time.time() - self.last_frame
-        target_time = 1.0 / FRAME_PERIOD
         
         # Sleep the missing time to maintain the frame rate, but maximum 1 second
         # (avoids issues if gettimeofday updates the time)
-        if td < target_time:
-            print(target_time - td)
-            time.sleep(min(1.0, target_time - td))
+        if td < FRAME_PERIOD:
+            print(FRAME_PERIOD - td)
+            time.sleep(min(1.0, FRAME_PERIOD - td))
         
         self.last_frame = time.time()
         return True
