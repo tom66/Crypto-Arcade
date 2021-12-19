@@ -351,7 +351,7 @@ class VFD(object):
         y1 = int(y1 / 8)
         
         command = b"\x1F\x28\x66\x11"
-        command += struct.pack("@hh", x1 - x0, y1 - y0)  # append size
+        command += struct.pack("@hh", x1 - x0, y1 - y0 + 1)  # append size
         command += b"\x01"
 
         # Pack image data, one row at a time.  Use cached values if available, and update
@@ -438,8 +438,8 @@ class VFD(object):
             
             for y, row in enumerate(rows):
                 for r in row:
-                    #print("rowdata:", r)
-                    self.stream_out(self.vfd_surf, r[0], y * DAMAGE_ROW_HEIGHT, r[1], (y * DAMAGE_ROW_HEIGHT) + DAMAGE_ROW_HEIGHT - 1)
+                    print("rowdata:", r)
+                    self.stream_out(self.vfd_surf, r[0], y * DAMAGE_ROW_HEIGHT, r[1], (y * DAMAGE_ROW_HEIGHT) + DAMAGE_ROW_HEIGHT - 1a)
 
         # we also push it to the window and wait for the vsync
         if self.window != None:
