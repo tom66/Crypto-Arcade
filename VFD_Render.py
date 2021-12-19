@@ -240,7 +240,9 @@ class VFD(object):
         for n, ch in enumerate(str_):
             yy = int(y + (ampl * math.sin((n * 0.32) + phase)))
             surf = font.render(ch, False, col)
-            self.vfd_surf.blit(surf, dest=(xx, yy))
+            h = surf.get_height()
+            for n in range(surf.get_width()):
+                self.vfd_surf.blit(surf, dest=(xx + n, yy), area=(n, h))
             xx += surf.get_width()
         
     def line(self, x0, y0, x1, y1, w, col=COL_WHITE):
