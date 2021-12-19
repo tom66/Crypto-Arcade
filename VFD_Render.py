@@ -266,8 +266,8 @@ class VFD(object):
         pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
 
     def balloon_sprite(self, x, y):
-        w = 7
-        h = 10
+        w = 9
+        h = 14
         xp = x + (w/2)
         yp = y + (h/2)
         yh = y + h
