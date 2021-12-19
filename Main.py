@@ -121,7 +121,7 @@ class Main(object):
     clk = None
     f = 0
     real_fps = 0
-    state = ST_DATE_EVENT # ST_RENDER_A_COIN
+    state = ST_RENDER_A_COIN
     disp_state = ST_RENDER_A_COIN
     current_coin = None
     cd = None
@@ -475,9 +475,10 @@ class Main(object):
             self.disp_state = ST_CLOCK
         elif self.state == ST_DATE_EVENT:
             self.render_date_event()
-            self.f %= 400
-            #if self.f > 400:
-            #    self.state = self.disp_state
+            #self.f %= 400
+            
+            if self.f > 400:
+                self.state = self.disp_state
         elif self.state == ST_POWERDOWN:
             self.render_powerdown()
             
