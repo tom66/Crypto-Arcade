@@ -238,7 +238,7 @@ class VFD(object):
     def text_wave(self, font, x, y, str_, phase, ampl, col=COL_WHITE):
         xx = x
         for n, ch in enumerate(str_):
-            yy = int(y + (ampl * math.sin((n * 0.25) + phase)))
+            yy = int(y + (ampl * math.sin((n * 0.32) + phase)))
             surf = font.render(ch, False, col)
             self.vfd_surf.blit(surf, dest=(xx, yy))
             xx += surf.get_width()
