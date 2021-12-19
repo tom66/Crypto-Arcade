@@ -121,7 +121,7 @@ class Main(object):
     clk = None
     f = 0
     real_fps = 0
-    state = ST_RENDER_A_COIN
+    state = ST_DATE_EVENT # ST_RENDER_A_COIN
     disp_state = ST_RENDER_A_COIN
     current_coin = None
     cd = None
