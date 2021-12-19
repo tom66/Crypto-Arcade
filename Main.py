@@ -9,6 +9,10 @@ ST_TRANSITION = 2
 ST_BRIGHTNESS = 3
 ST_CLOCK = 4
 ST_POWERDOWN = 5
+ST_DATE_EVENT = 6
+
+EV_BIRTHDAY = 1
+EV_OTHER = 2
 
 # Add coins you want to see here.
 COINS = [
@@ -21,6 +25,14 @@ COINS = [
     ('Chia',        'chia',         'XCH'),
     ('Litecoin',    'litecoin',     'LTC'),
     ('Cardano',     'cardano',      'ADA')
+]
+
+# Add events you want to see here.
+EVENTS = [
+    # Text                      Type                Date (Year is ignored)
+    ('Happy New Year!',         EV_OTHER,           datetime.date(0,  1,  1)),
+    ('Happy Birthday Ross!',    EV_BIRTHDAY,        datetime.date(0,  8, 16)),
+    ('Merry Christmas!',        EV_OTHER,           datetime.date(0, 12, 25)),
 ]
 
 # Day of week names.  Why would you change these?
@@ -108,7 +120,7 @@ class Main(object):
     clk = None
     f = 0
     real_fps = 0
-    state = ST_CLOCK
+    state = ST_DATE_EVENT
     disp_state = ST_RENDER_A_COIN
     current_coin = None
     cd = None
@@ -118,6 +130,7 @@ class Main(object):
     bri_state = 0
     vfd_bright = 7
     pd_state = 0
+    date_event = EVENTS[0]
 
     def __init__(self):
         self.vfd = VFD_Render.VFD(RENDER_TO_WINDOW)
@@ -295,6 +308,30 @@ class Main(object):
         self.state = ST_TRANSITION
         self.transition = random.choice([0, 1])
         self.effect = random.choice([0, 1, 2])
+        self.date_event = None
+        
+        # Use this chance to show an event if our 'roll of dice' results in that.
+        self.do_event = random.choice([0, 1, 2, 3, 4, 5])
+        if self.do_event == 0:
+            # Any matching events?
+            if self.choose_date_event():
+                self.state = ST_DATE_EVENT
+    
+    def choose_date_event(self):
+        now = datetime.datetime.now()
+        candidates = []
+        
+        # Try to find a matching event
+        for ev in EVENTS:
+            if ev[2].month == now.month and ev[2].day == now.day:
+                candidates.append(ev)
+        
+        if len(candidates) > 0:
+            self.date_event = random.choice(candidates)
+            return True
+        else:
+            self.date_event = None
+            return False
     
     def render_brightness(self):
         if self.bri_state != 0:
@@ -348,14 +385,22 @@ class Main(object):
         self.vfd.text(self.small_font, 0, 0, DAY_OF_WEEK[dt.weekday()])
         self.vfd.text(self.small_font, 0, 9, "%d %s" % (dt.day, dt.strftime('%b')))
     
+    def render_date_event(self):
+        # Render the date-event.
+        ev = self.date_event
+        
+        # Draw the characters in a wave
+        self.vfd.text_wave(self.small_font, -300 + (self.f % 600), 7, ev[0], self.f * 0.001, 4)
+    
     def render_powerdown(self):
         if self.pd_state == 0:
             if (self.f / 10) % 4 < 3:
                 self.vfd.text(self.small_font, 0, 0, "To power off")
             
             self.vfd.text(self.small_font, 0, 9, "hold 'X' down again")
-        elif self.pd_state == 1:            
-            self.vfd.text(self.small_font, 0, 4, "Powering off...")
+        elif self.pd_state == 1:
+            # Does nothing
+            pass
     
     def render_frame(self):
         if self.state == ST_RENDER_A_COIN:
@@ -390,6 +435,8 @@ class Main(object):
         elif self.state == ST_CLOCK:
             self.render_clock()
             self.disp_state = ST_CLOCK
+        elif self.state == ST_DATE_EVENT:
+            self.render_date()
         elif self.state == ST_POWERDOWN:
             self.render_powerdown()
             

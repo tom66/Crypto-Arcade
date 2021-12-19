@@ -235,6 +235,14 @@ class VFD(object):
         pos = (self.vfd_surf.get_width() - surf.get_width() - x, y)
         self.vfd_surf.blit(surf, dest=pos)
 
+    def text_wave(self, font, x, y, str_, phase, ampl, col=COL_WHITE):
+        xx = x
+        for n, ch in enumerate(str_):
+            yy = int(y + (ampl * math.sin((n * 0.01) + phase)))
+            surf = font.render(ch, False, col)
+            self.vfd_surf.blit(surf, dest=(xx, yy))
+            xx += surf.get_width()
+        
     def line(self, x0, y0, x1, y1, w, col=COL_WHITE):
         x0, y0, x1, y1 = int(x0), int(y0), int(x1), int(y1)
         pygame.draw.line(self.vfd_surf, col, (x0, y0), (x1, y1), w)
