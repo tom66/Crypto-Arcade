@@ -242,7 +242,7 @@ class VFD(object):
             h = surf.get_height()
             for p in range(surf.get_width()):
                 q = n + p
-                yy = int(y + (ampl * math.sin(((xx + p) * 0.03) + phase)))
+                yy = int(y + (ampl * math.sin(((xx + p) * 0.06) + phase)))
                 self.vfd_surf.blit(surf, dest=(xx + p, yy), area=(p, 0, 1, h))
             xx += surf.get_width()
         
