@@ -428,7 +428,7 @@ class Main(object):
         # For birthdays, render balloons.  
         if ev[1] == EV_BIRTHDAY:
             for b in self.balloon_pos:
-                self.vfd.balloon_sprite(b[0], b[1] - self.f + 50)
+                self.vfd.balloon_sprite(b[0], b[1] - (self.f / 2) + 50)
     
     def render_powerdown(self):
         if self.pd_state == 0:
