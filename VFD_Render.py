@@ -242,7 +242,7 @@ class VFD(object):
             surf = font.render(ch, False, col)
             h = surf.get_height()
             for n in range(surf.get_width()):
-                self.vfd_surf.blit(surf, dest=(xx + n, yy), area=(n, h))
+                self.vfd_surf.blit(surf, dest=(xx + n, yy), area=(n, 0, 1, h))
             xx += surf.get_width()
         
     def line(self, x0, y0, x1, y1, w, col=COL_WHITE):
