@@ -344,7 +344,7 @@ class Main(object):
                     fail = False
                     
                     for y in self.balloon_pos:
-                        if abs(y - new_pos[0]) < 30:
+                        if abs(y[0] - new_pos) < 30:
                             fail = True
                             break
                     
