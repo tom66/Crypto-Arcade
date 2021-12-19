@@ -390,7 +390,7 @@ class Main(object):
         ev = self.date_event
         
         # Draw the characters in a wave
-        self.vfd.text_wave(self.small_font, -150 + (self.f % 400), 4, ev[0], self.f * 0.1, 4)
+        self.vfd.text_wave(self.small_font, -150 + (self.f % 400), 4, ev[0], self.f * 0.02, 4)
     
     def render_powerdown(self):
         if self.pd_state == 0:
