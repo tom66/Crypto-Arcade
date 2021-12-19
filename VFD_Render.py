@@ -243,7 +243,7 @@ class VFD(object):
             for p in range(surf.get_width()):
                 q = n + p
                 yy = int(y + (ampl * math.sin((q * 0.32) + phase)))
-                self.vfd_surf.blit(surf, dest=(xx + p, yy), area=(n, 0, 1, h))
+                self.vfd_surf.blit(surf, dest=(xx + p, yy), area=(p, 0, 1, h))
             xx += surf.get_width()
         
     def line(self, x0, y0, x1, y1, w, col=COL_WHITE):
