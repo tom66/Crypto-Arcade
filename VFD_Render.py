@@ -1,4 +1,4 @@
-import pygame, sys, pprint, copy, time, struct, numpy, random
+import pygame, sys, pprint, copy, time, struct, numpy, random, math
 import pygame.gfxdraw
 
 pygame.init()
