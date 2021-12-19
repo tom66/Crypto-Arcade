@@ -344,7 +344,7 @@ class Main(object):
                     fail = False
                     
                     for y in self.balloon_pos:
-                        if abs(y - new_pos) < 30:
+                        if abs(y - new_pos[0]) < 30:
                             fail = True
                             break
                     
@@ -355,7 +355,7 @@ class Main(object):
                 if iters > 100:
                     break
                     
-                self.balloon_pos.append(new_pos)
+                self.balloon_pos.append((new_pos, random.randrange(0, 30)))
             
             print("Balloon list: ", self.balloon_pos)
             
@@ -424,6 +424,11 @@ class Main(object):
         self.vfd.text_wave(self.small_font, -150 + (self.f % 400), 1, ev[0], self.f * 0.02, 7)
         self.vfd.line(VFD_Render.VFD_WIDTH - 1, 0, VFD_Render.VFD_WIDTH - 1, VFD_Render.VFD_HEIGHT - 1, 1, VFD_Render.COL_BLACK)
         self.vfd.line(0, 0, 0, VFD_Render.VFD_HEIGHT - 1, 1, VFD_Render.COL_BLACK)
+        
+        # For birthdays, render balloons.  
+        if ev[1] == EV_BIRTHDAY:
+            for b in self.balloon_pos:
+                self.vfd.balloon_sprite(b[0], b[1] + self.f - 50)
     
     def render_powerdown(self):
         if self.pd_state == 0:
