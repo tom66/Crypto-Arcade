@@ -436,7 +436,7 @@ class Main(object):
             self.render_clock()
             self.disp_state = ST_CLOCK
         elif self.state == ST_DATE_EVENT:
-            self.render_date()
+            self.render_date_event()
         elif self.state == ST_POWERDOWN:
             self.render_powerdown()
             
