@@ -121,7 +121,7 @@ class Main(object):
     clk = None
     f = 0
     real_fps = 0
-    state = ST_DATE_EVENT
+    state = ST_RENDER_A_COIN
     disp_state = ST_RENDER_A_COIN
     current_coin = None
     cd = None
@@ -158,6 +158,9 @@ class Main(object):
         
         # Set default brightness (@FUTURE: Load config file!)
         self.vfd.set_disp_bright(self.vfd_bright)
+        
+        # Test
+        self.choose_date_event()
 
     def render_arrow_up_rotate(self, x, f):
         f %= 32
@@ -332,7 +335,7 @@ class Main(object):
             self.date_event = random.choice(candidates)
             self.balloon_pos = []
             
-            for x in range(3):
+            for x in range(7):
                 fail = True
                 
                 while fail:
