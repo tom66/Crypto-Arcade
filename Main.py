@@ -336,7 +336,7 @@ class Main(object):
             self.balloon_pos = []
             iters = 0
             
-            for x in range(5):
+            for x in range(random.randrange(2, 5)):
                 fail = True
                 
                 while fail:
