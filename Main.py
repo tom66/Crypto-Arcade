@@ -32,8 +32,8 @@ EVENTS = [
     # Text                      Type                Date (Year is ignored)
     ('Happy New Year!',         EV_OTHER,           datetime.date(1,  1,  1)),
     ('Happy Birthday Ross!',    EV_BIRTHDAY,        datetime.date(1,  8, 16)),
-    ('Merry Christmas!',        EV_OTHER,           datetime.date(1, 12, 25)),
-    ('Test Event!',             EV_OTHER,           datetime.date(1, 12, 19))
+    ('Merry Christmas!',        EV_OTHER,           datetime.date(1, 12, 25)), 
+    ('Test Event!',             EV_BIRTHDAY,        datetime.date(1, 12, 19))
 ]
 
 # Day of week names.  Why would you change these?
@@ -132,6 +132,7 @@ class Main(object):
     vfd_bright = 7
     pd_state = 0
     date_event = EVENTS[0]
+    balloon_pos = []
 
     def __init__(self):
         self.vfd = VFD_Render.VFD(RENDER_TO_WINDOW)
@@ -329,6 +330,24 @@ class Main(object):
         
         if len(candidates) > 0:
             self.date_event = random.choice(candidates)
+            self.balloon_pos = []
+            
+            for x in range(3):
+                fail = True
+                
+                while fail:
+                    new_pos = random.randrange(-20, 140)
+                    fail = False
+                    
+                    for y in self.balloon_pos:
+                        if abs(y - new_pos) < 30:
+                            fail = True
+                            break
+                
+                self.balloon_pos.append(new_pos)
+            
+            print("Balloon list: ", self.balloon_pos)
+            
             return True
         else:
             self.date_event = None

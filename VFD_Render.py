@@ -265,6 +265,18 @@ class VFD(object):
         x0, y0, r, w = int(x0), int(y0), int(r), int(w)
         pygame.draw.circle(self.inv_surf, col, (x0, y0), r, w)
 
+    def balloon_sprite(self, x, y):
+        w = 7
+        h = 10
+        xp = x + (w/2)
+        yp = y + (h/2)
+        yh = y + h
+        
+        pygame.draw.ellipse(self.vfd_surf, COL_WHITE, (xp, yp, w, h))
+        pygame.draw.line(self.vfd_surf, col, (xp, yh), (xp - 3, yh - 3), 1)
+        pygame.draw.line(self.vfd_surf, col, (xp, yh), (xp    , yh - 6), 1)
+        pygame.draw.line(self.vfd_surf, col, (xp, yh), (xp + 3, yh - 9), 1)
+        
     def fill(self, col=COL_BLACK):
         self.vfd_surf.fill(col)
 
