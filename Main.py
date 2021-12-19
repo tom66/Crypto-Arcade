@@ -14,6 +14,8 @@ ST_DATE_EVENT = 6
 EV_BIRTHDAY = 1
 EV_OTHER = 2
 
+FRAME_PERIOD = 1.0 / 25.0   # 25Hz update rate target
+
 # Add coins you want to see here.
 COINS = [
     # EnglishName   CodeName        ShortHand
@@ -132,6 +134,7 @@ class Main(object):
     pd_state = 0
     date_event = EVENTS[0]
     balloon_pos = []
+    last_frame = 0.0
 
     def __init__(self):
         self.vfd = VFD_Render.VFD(RENDER_TO_WINDOW)
@@ -559,7 +562,16 @@ class Main(object):
         if self.f % 30 == 0:
             print("tick", self.real_fps, self.f)
             
-        self.real_fps = 1.0 / self.clk.tick(30)
+        #self.real_fps = 1.0 / self.clk.tick(30)
+        td = time.time() - self.last_frame()
+        target_time = 1.0 / FRAME_PERIOD
+        
+        # Sleep the missing time to maintain the frame rate, but maximum 1 second
+        # (avoids issues if gettimeofday updates the time)
+        if td < target_time:
+            time.sleep(min(1.0, target_time - td))
+        
+        self.last_frame = time.time()
         return True
 
 if __name__ == "__main__":
