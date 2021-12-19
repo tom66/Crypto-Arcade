@@ -428,7 +428,7 @@ class Main(object):
         # For birthdays, render balloons.  
         if ev[1] == EV_BIRTHDAY:
             for b in self.balloon_pos:
-                self.vfd.balloon_sprite(b[0], b[1] + self.f - 50)
+                self.vfd.balloon_sprite(b[0], b[1] - self.f + 50)
     
     def render_powerdown(self):
         if self.pd_state == 0:
@@ -475,9 +475,9 @@ class Main(object):
             self.disp_state = ST_CLOCK
         elif self.state == ST_DATE_EVENT:
             self.render_date_event()
-            
-            if self.f > 400:
-                self.state = self.disp_state
+            self.f %= 400
+            #if self.f > 400:
+            #    self.state = self.disp_state
         elif self.state == ST_POWERDOWN:
             self.render_powerdown()
             
