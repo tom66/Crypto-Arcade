@@ -391,6 +391,8 @@ class Main(object):
         
         # Draw the characters in a wave
         self.vfd.text_wave(self.small_font, -150 + (self.f % 400), 4, ev[0], self.f * 0.02, 4)
+        self.vfd.line(VFD_Render.VFD_WIDTH - 1, 0, VFD_Render.VFD_WIDTH - 1, VFD_Render.VFD_HEIGHT - 1, 1, VFD_Render.COL_BLACK)
+        self.vfd.line(0, 0, 0, VFD_Render.VFD_HEIGHT - 1, 1, VFD_Render.COL_BLACK)
     
     def render_powerdown(self):
         if self.pd_state == 0:
