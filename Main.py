@@ -335,7 +335,7 @@ class Main(object):
             self.date_event = random.choice(candidates)
             self.balloon_pos = []
             
-            for x in range(7):
+            for x in range(5):
                 fail = True
                 
                 while fail:
