@@ -273,9 +273,9 @@ class VFD(object):
         yh = y + h
         
         pygame.draw.ellipse(self.vfd_surf, COL_WHITE, (xp, yp, w, h))
-        pygame.draw.line(self.vfd_surf, col, (xp, yh), (xp - 3, yh - 3), 1)
-        pygame.draw.line(self.vfd_surf, col, (xp, yh), (xp    , yh - 6), 1)
-        pygame.draw.line(self.vfd_surf, col, (xp, yh), (xp + 3, yh - 9), 1)
+        pygame.draw.line(self.vfd_surf, COL_WHITE, (xp, yh), (xp - 3, yh - 3), 1)
+        pygame.draw.line(self.vfd_surf, COL_WHITE, (xp, yh), (xp    , yh - 6), 1)
+        pygame.draw.line(self.vfd_surf, COL_WHITE, (xp, yh), (xp + 3, yh - 9), 1)
         
     def fill(self, col=COL_BLACK):
         self.vfd_surf.fill(col)
