@@ -568,7 +568,6 @@ class Main(object):
         # Sleep the missing time to maintain the frame rate, but maximum 1 second
         # (avoids issues if gettimeofday updates the time)
         if td < FRAME_PERIOD:
-            print(FRAME_PERIOD - td)
             time.sleep(min(1.0, FRAME_PERIOD - td))
         
         self.last_frame = time.time()
