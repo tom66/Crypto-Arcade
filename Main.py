@@ -334,8 +334,9 @@ class Main(object):
         if len(candidates) > 0:
             self.date_event = random.choice(candidates)
             self.balloon_pos = []
+            iters = 0
             
-            for x in range(5):
+            for x in range(4):
                 fail = True
                 
                 while fail:
@@ -346,7 +347,14 @@ class Main(object):
                         if abs(y - new_pos) < 30:
                             fail = True
                             break
+                    
+                    iters += 1
+                    if iters > 100:
+                        break
                 
+                if iters > 100:
+                    break
+                    
                 self.balloon_pos.append(new_pos)
             
             print("Balloon list: ", self.balloon_pos)
