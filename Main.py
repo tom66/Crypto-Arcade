@@ -30,9 +30,9 @@ COINS = [
 # Add events you want to see here.
 EVENTS = [
     # Text                      Type                Date (Year is ignored)
-    ('Happy New Year!',         EV_OTHER,           datetime.date(0,  1,  1)),
-    ('Happy Birthday Ross!',    EV_BIRTHDAY,        datetime.date(0,  8, 16)),
-    ('Merry Christmas!',        EV_OTHER,           datetime.date(0, 12, 25)),
+    ('Happy New Year!',         EV_OTHER,           datetime.date(1,  1,  1)),
+    ('Happy Birthday Ross!',    EV_BIRTHDAY,        datetime.date(1,  8, 16)),
+    ('Merry Christmas!',        EV_OTHER,           datetime.date(1, 12, 25)),
 ]
 
 # Day of week names.  Why would you change these?
