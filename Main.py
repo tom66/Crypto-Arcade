@@ -563,7 +563,7 @@ class Main(object):
             print("tick", self.real_fps, self.f)
             
         #self.real_fps = 1.0 / self.clk.tick(30)
-        td = time.time() - self.last_frame()
+        td = time.time() - self.last_frame
         target_time = 1.0 / FRAME_PERIOD
         
         # Sleep the missing time to maintain the frame rate, but maximum 1 second
